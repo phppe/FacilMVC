@@ -1,0 +1,278 @@
+#######################################################################
+#
+#      Fácil MVC - Arquivo de filtro geral do framework
+#
+#      Opções padrão:
+#
+# ->   Indexes gera um arquivo com a lista do conteúdo
+#      de um diretório sempre que a URL chamada apontar
+#      pra um diretório que não tenha arquivo index 
+#      (como index.html ou index.php)
+#
+# -> - Indexes desliga essa opção e gera Forbidden nesse caso
+#
+# ->   MultiViews em URLs que apontem para um diretório que não exista
+#      faz o Apache procurar por arquivos com o mesmo nome e qualquer extensão
+#      Assim: /caminho/pra/diretorio pode achar /caminho/pra/diretorio.php
+#
+# -> - MultiViews no nosso caso evita index (ação) ser considerado index.php 
+#      (index.php é o nosso arquivo Front-Controller)
+#
+# -> + FollowSymlinks informa ao servidor que percorra o links simbólicos.
+#      Atalhos criados no sistema de arquivos para simplificar e reaproveitar
+#      os endereçamentos de recursos.
+#      Esta diretiva deve estar ligada uma vez que precisamos do mod_rewrite
+#
+########################################################################
+ 
+options -Indexes -MultiViews +FollowSymlinks
+
+
+#######################################################################
+#
+#      Configurações Gerais PHP_INI_PER_DIR
+#
+# ->   Desligando opções depreciadas. 
+# ->   Ligando short_open_tag para poder permitir <?= nas templates.
+#      A partir do PHP 5.4+ as expressões <?= não precisam desta diretiva
+#      para funcionarem, portanto você não precisa ligá-la
+#      apenas por este motivo.
+#      Leia mais: https://bugs.php.net/bug.php?id=50662
+# ->   Restringindo uso de cookies a envios HTTP, indicando ao browser
+#      que não tente abrir esses cookies se algum Javascript solicitar.
+#      Isso previne certos tipos de ataques XSS.
+#      Leia mais: http://php.net/function.setcookie.php#79488
+#
+########################################################################
+
+php_flag magic_quotes_gpc Off
+php_flag magic_quotes_runtime Off
+php_flag magic_quotes_sybase Off
+php_flag register_globals Off
+php_flag short_open_tag On
+php_flag session.cookie_httponly On
+
+
+#######################################################################
+#
+#   Seguindo as sugestões do HTML5 Boilerplate para 
+#   padronização do tipo MIME de certos arquivos
+#
+#######################################################################
+AddType application/javascript              js
+AddType audio/ogg                           oga ogg
+AddType audio/mp4                           m4a
+AddType video/ogg                           ogv
+AddType video/mp4                           mp4 m4v
+AddType video/webm                          webm
+AddType image/svg+xml                       svg svgz
+AddEncoding gzip                            svgz
+AddType application/vnd.ms-fontobject       eot
+AddType application/x-font-ttf              ttf ttc
+AddType font/opentype                       otf
+AddType application/x-font-woff             woff
+AddType image/x-icon                        ico
+AddType image/webp                          webp
+AddType text/cache-manifest                 appcache manifest
+AddType text/x-component                    htc
+AddType application/x-chrome-extension      crx
+AddType application/x-opera-extension       oex
+AddType application/x-xpinstall             xpi
+AddType application/octet-stream            safariextz
+AddType application/x-web-app-manifest+json webapp
+AddType text/x-vcard                        vcf
+
+
+#######################################################################
+#
+#   Ligando o ModRewrite para as principais regras de navegação 
+#
+#######################################################################
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    ###################################################################
+    # Bloqueando acesso (Forbidden) a qualquer arquivo ou
+    # diretório oculto. Iniciado pelo ponto
+    ###################################################################
+    #RewriteCond %{REQUEST_FILENAME} -d
+    #RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule "(^|/)\." - [F,L]
+
+    ###################################################################
+    # Direcionando chamadas a combos de js e css por arquivo de
+    # mapeamento de combos que devem existir com extensão
+    # .combo.js ou .combo.css.
+    # Eles devem ter uma lista separada por quebra de linha (\n) de
+    # todas as URLs para arquivos .js existentes
+    ###################################################################
+    RewriteRule .*?\.combo((\.js)|(\.css))$ index.php?_combo=$0 [L]
+
+    ###################################################################
+    # Direcionando chamadas a combos de js e css por pasta.
+    # No lugar de apontar para algum arquivo específico
+    ###################################################################
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule .*/(.*)/\1((\.js)|(\.css))$ index.php?_combodir=$0 [L]
+
+    ###################################################################
+    # Capturando chamadas a js, img, css e recursos
+    # Ligar essa diretiva pode aumentar a carga no servidor uma vez
+    # que toda requisição para arquivo estático vai passar pelo PHP.
+    # Mas haverá a vantagem dele poder processar internacionalização
+    # também nos arquivos .js e .css além de poder reduzir o tamanho
+    # destes (minify) o que pode melhorar o desempenho se o gargalo
+    # estiver no tráfego e não no processamento da máquina.
+    ###################################################################
+    RewriteRule .*?((js/)|(css/)|(imagens/)|(recursos/))(.*) index.php?_url=$0 [L]
+
+    ###################################################################
+    # Direcionando toda URL que não apontar para recurso existente para
+    # index.php passando o caminho para a variavel $url
+    ###################################################################
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php?_url=$1 [QSA,L]
+
+</IfModule>
+
+
+#######################################################################
+#
+#   Compactação Gzip para diminuição de tráfego
+#
+#######################################################################
+
+<IfModule mod_deflate.c>
+  # Force deflate for mangled headers developer.yahoo.com/blogs/ydn/posts/2010/12/pushing-beyond-gzipping/
+  <IfModule mod_setenvif.c>
+    <IfModule mod_headers.c>
+      SetEnvIfNoCase ^(Accept-EncodXng|X-cept-Encoding|X{15}|~{15}|-{15})$ ^((gzip|deflate)\s*,?\s*)+|[X~-]{4,13}$ HAVE_Accept-Encoding
+      RequestHeader append Accept-Encoding "gzip,deflate" env=HAVE_Accept-Encoding
+    </IfModule>
+  </IfModule>
+
+
+  # HTML, TXT, CSS, JavaScript, JSON, XML, HTC:
+  <IfModule filter_module>
+    FilterDeclare   COMPRESS
+    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/html
+    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/css
+    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/plain
+    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/xml
+    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/x-component
+    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/javascript
+    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/json
+    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/xml
+    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/xhtml+xml
+    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/rss+xml
+    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/atom+xml
+    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/vnd.ms-fontobject
+    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $image/svg+xml
+    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $image/x-icon
+    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/x-font-ttf
+    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $font/opentype
+    FilterChain     COMPRESS
+    FilterProtocol  COMPRESS  DEFLATE change=yes;byteranges=no
+  </IfModule>
+
+  <IfModule !mod_filter.c>
+    # Legacy versions of Apache
+    AddOutputFilterByType DEFLATE text/html text/plain text/css application/json
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE text/xml application/xml text/x-component
+    AddOutputFilterByType DEFLATE application/xhtml+xml application/rss+xml application/atom+xml
+    AddOutputFilterByType DEFLATE image/x-icon image/svg+xml application/vnd.ms-fontobject application/x-font-ttf font/opentype
+  </IfModule>
+
+</IfModule>
+
+
+#######################################################################
+#
+#   Adicionando cabeçalhos Expires para conteúdo estático
+#
+#######################################################################
+
+<IfModule mod_expires.c>
+  ExpiresActive on
+
+  ExpiresDefault                                "access plus 1 month"
+  ExpiresByType text/cache-manifest             "access plus 0 seconds"
+  ExpiresByType text/html                       "access plus 0 seconds"
+  ExpiresByType text/xml                        "access plus 0 seconds"
+  ExpiresByType application/xml                 "access plus 0 seconds"
+  ExpiresByType application/json                "access plus 0 seconds"
+  ExpiresByType application/rss+xml             "access plus 1 hour"
+  ExpiresByType application/atom+xml            "access plus 1 hour"
+  ExpiresByType image/x-icon                    "access plus 1 week"
+  ExpiresByType image/gif                       "access plus 1 month"
+  ExpiresByType image/png                       "access plus 1 month"
+  ExpiresByType image/jpg                       "access plus 1 month"
+  ExpiresByType image/jpeg                      "access plus 1 month"
+  ExpiresByType video/ogg                       "access plus 1 month"
+  ExpiresByType audio/ogg                       "access plus 1 month"
+  ExpiresByType video/mp4                       "access plus 1 month"
+  ExpiresByType video/webm                      "access plus 1 month"
+  ExpiresByType text/x-component                "access plus 1 month"
+  ExpiresByType application/x-font-ttf          "access plus 1 month"
+  ExpiresByType font/opentype                   "access plus 1 month"
+  ExpiresByType application/x-font-woff         "access plus 1 month"
+  ExpiresByType image/svg+xml                   "access plus 1 month"
+  ExpiresByType application/vnd.ms-fontobject   "access plus 1 month"
+  ExpiresByType text/css                        "access plus 1 month"
+  ExpiresByType application/javascript          "access plus 1 month"
+
+</IfModule>
+
+
+#######################################################################
+#
+#   Removendo cabeçalho de controle de cache ETag
+#   Não funciona em servidores clusterizados e não traz nenhuma
+#   vantagem considerável com relação ao controle via 
+#   Last-Modified. Portanto, retirá-lo reduz um cabelo de sapo
+#   o tamanho da resposta do servidor
+#
+#######################################################################
+
+<IfModule mod_headers.c>
+  Header unset ETag
+</IfModule>
+FileETag None
+
+#######################################################################
+#
+#   Redirecionando requsições que forneceram www para a opção sem www.
+#   Colocamos as duas técnicas conforme sugerido no HTML5 Boilerplate.
+#   No entanto não habilitamos nenhuma para que você possa escolher
+#   ou mesmo nunca ligar em situações onde a máquina www for diferente
+#   da máquina padrão de autoridade pelo domínio.
+#   O que motiva esse redirecionamento são as técnicas de SEO que
+#   consideram esse conteúdo duplicado (em duas URLs) algo ruim
+#
+#######################################################################
+
+# Opção 1 (a mais indicada):
+# Rewrite "www.example.com -> example.com"
+
+# <IfModule mod_rewrite.c>
+#   RewriteCond %{HTTPS} !=on
+#   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+#   RewriteRule ^ http://%1%{REQUEST_URI} [R=301,L]
+# </IfModule>
+
+# ----------------------------------------------------------------------
+
+# Option 2 (só libere aqui se comentar a primeira opção):
+# Rewrite "example.com -> www.example.com"
+
+# <IfModule mod_rewrite.c>
+#   RewriteCond %{HTTPS} !=on
+#   RewriteCond %{HTTP_HOST} !^www\..+$ [NC]
+#   RewriteRule ^ http://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+# </IfModule>
+
+
