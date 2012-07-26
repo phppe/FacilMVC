@@ -407,7 +407,7 @@ class Facil {
             // e houver arquivo de configuração para o ambiente sugerido
             if (self::$dadosIni['sugerir_ambiente'] &&
                     isset(self::$dadosUrl[0]) &&
-                    $dadosUrl[0] != "padrao" &&
+                    self::$dadosUrl[0] != "padrao" &&
                     file_exists(CONFIG . DS . self::$dadosUrl[0] . ".ini")) {
                 // Retira o primeiro elemento do array para compor
                 // a informação do ambiente sugerido
@@ -420,7 +420,6 @@ class Facil {
     }
     
     private static function registrarArquivoIni($novoIni = "") {
-        if ($a == 10) return;
         if (empty($novoIni)) {
             $ini = CONFIG . DS . self::$ambiente . '.ini';
         } else {
