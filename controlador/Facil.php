@@ -351,28 +351,46 @@ class Facil {
             $memoria = memory_get_usage(true);
             if (self::$dadosIni["saida"]["uso_de_memoria"]) {
                 echo " Memória alocada: ";
-                $gb = 1024 * 1024 * 1024;
-                $mb = 1024 * 1024;
-                $kb = 1024;
-                if ($memoria > $gb) {
-                    $exibir = floor($memoria / $gb);
-                    echo $exibir . "Gb ";
-                    $memoria = $memoria - ($exibir * $gb);
-                }
-                
-                if ($memoria > $mb) {
-                    $exibir = floor($memoria / $mb);
-                    echo $exibir . "Mb ";
-                    $memoria = $memoria - ($exibir * $mb);
-                }
-                
-                if ($memoria > $kb) {
-                    $exibir = floor($memoria / $kb);
-                    echo $exibir . "Kb ";
-                    $memoria = $memoria - ($exibir * $kb);
+                if (self::$dadosIni["saida"]["leitura_humana"]) {
+                    $gb = 1024 * 1024 * 1024;
+                    $mb = 1024 * 1024;
+                    $kb = 1024;
+                    if ($memoria > $gb) {
+                        $exibir = floor($memoria / $gb);
+                        echo $exibir . "Gb ";
+                        $memoria -= $exibir * $gb;
+                    }
+
+                    if ($memoria > $mb) {
+                        $exibir = floor($memoria / $mb);
+                        echo $exibir . "Mb ";
+                        $memoria -= $exibir * $mb;
+                    }
+
+                    if ($memoria > $kb) {
+                        $exibir = floor($memoria / $kb);
+                        echo $exibir . "Kb ";
+                        $memoria -= $exibir * $kb;
+                    }
                 }
                 if ($memoria) echo $memoria . "bytes\n";
             }
+        }
+    }
+    
+    /**
+     * Método para carregar alguma lib de terceiros
+     * @param string $nome Nome da biblioteca (lib)
+     * @throws ControleException se a lib não existir
+     */
+    public static function carregarLib($nome) {
+        if (file_exists(LIB . DS . $nome . "Plugin.php")) {
+            header("Content-type: text/html");
+            eval("\$obj = \lib\\{$nome}Plugin::getInstance();");
+            $obj->carregar();
+            return $obj;
+        } else {
+            throw new ControleException(ControleException::LIB_INEXISTENTE, $nome);
         }
     }
 
@@ -569,58 +587,22 @@ class Facil {
             $saida = ob_get_contents();
             ob_end_clean();
             $saida = self::internacionalizar($saida);
-            echo (self::$dadosIni['saida']['reduzir_scripts']) ? self::reduzirConteudo($saida) : $saida;
+            echo (self::$dadosIni['saida']['reduzir_scripts'] > 0) ? self::reduzirConteudo($saida) : $saida;
         }
         exit();
     }
     
     private static function reduzirConteudo($entrada) {
-        $saida = "";
-        $linhas = explode(PHP_EOL, $entrada);
-        $pular = 0;
-        foreach ($linhas as $linha) {
-            // Retirando espaços em branco no início e no fim da linha
-            $linha = trim($linha);
-            // Ignorando linhas vazias
-            if (!empty ($linha)) {
-                // Verificando se há uma sequencia " // " na linha
-                $posBarraBarra = strpos($linha, "//");
-                if ($posBarraBarra !== false) {
-                    $linha = substr($linha, 0, $posBarraBarra);
-                }
-                // Verificando blocos de comentário " /* "
-                $posBarraAsterisco = strpos($linha, "/*");
-                $posAsteriscoBarra = strpos($linha, "*/");
-                if ($posBarraAsterisco !== false) {
-                    $linha = substr($linha, 0, $posBarraAsterisco);
-                    $pular++;
-                }
-                if ($posAsteriscoBarra !== false) {
-                    $linha = substr($linha, $posAsteriscoBarra + 2);
-                    $pular--;
-                }
-                // Só incluir linhas que não estejam em blocos de comentários
-                if (!$pular) {
-                    $pattern = '@(\s*)([]"\'\(),;+*/%[{}=-])(\s*)@';
-                    // Não reduzir trechos entre aspas ou barras 
-                    // (conteúdo de strings e expressões regulares)
-                    $ret = preg_match_all('|([/"\'])|u', $linha, $aspas, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
-                    if ($ret) {
-                        $posicao1 = $aspas[0][0][1];
-                        $posicaoN = $aspas[count($aspas)-1][0][1];
-                        $saida .= preg_replace($pattern, '\2', substr($linha, 0, $posicao1)) . 
-                                  substr($linha, $posicao1, $posicaoN - $posicao1) . 
-                                  preg_replace($pattern, '\2', substr($linha, $posicaoN));
-                    } else {
-                        $saida .= preg_replace($pattern, '\2', $linha);
-                    }
-                    
-                }
-            }
-        }
-        return $saida;
+        /**
+         * MinifyJsPlugin
+         */
+        $minify = self::carregarLib("MinifyJs");
+        return $minify->minimizar($entrada, self::$dadosIni['saida']['reduzir_scripts'], 
+                "/**\n" .
+                 "* Adaptação ao FacilMVC da implementação em PHP feita por Ryan Grove\n".
+                 "* da biblioteca original JSMin de Douglas Crockford\n".
+                 "*/");
     }
-    
 
     /**
      * Método para buscar na URL a classe e o método que vamos instanciar e executar, respectivamente
@@ -695,12 +677,12 @@ class Facil {
     /**
      * Método que vai usar a API de Reflection para
      * buscar o método da classe que precisamos executar.
+     * Adicionada a chamada __call() caso a classe tenha
      *
      * Vai armazenar em self::$metodo ou levantar um ControleException
      *
      * @param string $modulo Nome da classe modulo. Opcional
      * @throws ControleException
-     * @version 1.1 Adicionada a chamada __call() caso a classe tenha
      */
     private static function recuperarAcao() {
         try {
@@ -732,9 +714,9 @@ class Facil {
     /**
      * Método para verificar se os parâmetros informados são pelo menos o total
      * exigido na classe do módulo.
+     * Adicionada a chamada __call() caso a classe tenha
      *
      * @throws ControleException
-     * @version 1.1 Adicionada a chamada __call() caso a classe tenha
      */
     private static function checarParametros() {
         // Se o total de parâmetros não suprir o número requerido
@@ -750,7 +732,7 @@ class Facil {
     /**
      * Método onde a coisa acontece.
      * Chama o método da classe recuperada
-     * @version 1.1 Adicionada a chamada __call() caso a classe tenha
+     * Adicionada a chamada __call() caso a classe tenha
      */
     private static function invocarMetodo() {
         if (self::$metodo->getName() == '__call') {

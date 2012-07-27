@@ -20,7 +20,7 @@ class PHPMailerPlugin implements IPlugin {
      * @return PHPMailer
      */
     public function carregar() {
-        $dados = \controlador\Controlador::getDadosIni();
+        $dados = \controlador\Facil::getDadosIni();
 
         require(LIB . DS . "PHPMailer/class.phpmailer.php");
 

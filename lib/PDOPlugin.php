@@ -25,7 +25,7 @@ class PDOPlugin implements IPlugin {
      *
      */
     public function carregar() {
-        $dados = \controlador\Controlador::getDadosIni();
+        $dados = \controlador\Facil::getDadosIni();
         $this->pdo = new \PDO(sprintf('%s:host=%s;dbname=%s;port=%04d',
                                 $dados['banco']['sgbd'],
                                 $dados['banco']['host'],

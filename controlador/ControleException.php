@@ -16,8 +16,9 @@ class ControleException extends \Exception {
 	const ACAO_PROTEGIDA            = 3;
 	const PARAMETROS_INSUFICIENTES  = 4;
 	const VISAO_INEXISTENTE         = 5;
+	const LIB_INEXISTENTE           = 6;
 	/**#@-*/
-	const EXCECAO_NAO_CAPTURADA     = 6;
+	const EXCECAO_NAO_CAPTURADA     = 7;
 
 	/**
 	 * Construtor da Exceção
@@ -47,6 +48,10 @@ class ControleException extends \Exception {
 			case self::VISAO_INEXISTENTE:
 				$mensagem = "A template [$nome] da visão selecionada não foi " .
                     		"encontrada em " . VISAO . DS . Facil::getTemplate();
+				break;
+			case self::LIB_INEXISTENTE:
+				$mensagem = "A biblioteca [$nome] não existe. Arquivo  " .
+                    		LIB . DS . $nome . "Plugin.php não encontrado";
 				break;
 		}
 		parent::__construct($mensagem, $codigo);
