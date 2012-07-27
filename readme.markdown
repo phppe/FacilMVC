@@ -6,17 +6,17 @@
 * Projetos pequenos podem conter apenas métodos na classe \controlador\Home
 * Projetos médios podem conter mais classes que herdem de \controlador\Modulo
 * Projetos maiores podem dividir o controlador em diretórios para melhor organização de seus módulos
-* Suporta inferência de ambiente na própria URL
-* Emabasado no framework HTML5 Boilerplate, realiza todas as suas boas práticas e utiliza a biblioteca MinifyJs para reduzir JS e CSS on the fly sem você se preocupar.
-* Suporta internacionalização de modo simples eficaz.
+* Embasado no framework HTML5 Boilerplate, realiza todas as suas boas práticas e utiliza a biblioteca MinifyJs para reduzir JS e CSS on the fly sem você se preocupar.
+* Suporta internacionalização de modo simples e eficaz.
 * Suporta múltiplos ambientes a partir de arquivos de configuração e já traz os ambientes desenvolvimento, produção e testes como sugestão
+* Suporta definição de ambiente de execução na própria URL
 * Suporta adição de novos módulos através de plugins em LIB
 
 # Pre-requisitos #
 
 * PHP 5.3.0+
 * Apache + mod_rewrite
-* Arquivo .htaccess habilitado
+* Sobreposições de configurações via .htaccess
 
 # Como surgiu? #
 
@@ -35,7 +35,7 @@ E uma série de outras que foram surgindo.
 Ao longo de anos, alguns ex-alunos e amigos passaram a adotar este framework nas empresas em que 
 desenvolviam e constantemente relatavam incrementos e melhorias no código.
 
-# Quem o matém hoje? #
+# Quem o mantém hoje? #
 
 Todo o código do FacilMVC foi completamente cedido à comunidade PHP Pernambuco
 
@@ -69,9 +69,39 @@ http://meuservidor/phpinfo ou
 http://meuservidor/home/phpinfo
 
 Note que o nome do módulo "Home" não é necessário, assim como se você não digitar nenhum caminho,
-o método index será o executado.
+o método index será executado.
 
 Você pode conferir e alterar os valores padrão no arquivo padrao.ini do diretório controlador.
+
+Na URL é possível informar:
+
+/ambiente/namespace/modulo/acao/parametros
+
+Onde:
+ - Ambiente: Conjunto de configurações obtidas de arquivos *.ini em config
+ - Namespace: Parte do namespace da classe (a partir de controlador)
+ - Modulo: Nome da classe que herda de controlador\Modulo
+ - Acao: Método a ser invocado após criar a instância da classe Modulo
+ - Parametros: Lista (separada por barras) de parâmetros para o método
+
+Esse formato encurta mais a URL e a torna mais amigável. Confira o exemplo:
+
+A URL abaixo:
+www.meusite.com/?secao=carrinho&acao=adicionar&idproduto=1
+
+Poderia ser assim no Fácil:
+www.meusite.com/carrinho/adicionar/1
+
+Se o exemplo de como poderia ser a classe:
+
+namespace controlador;
+
+class Carrinho {
+    public function adicionar($idProduto) {
+        // O valor de $idProduto neste exemplo é 1
+    }
+}
+
 
 ## Como integrar com a visão? ##
 
@@ -95,14 +125,14 @@ Realize este comando antes de Facil::despachar().
 Para adicionar mensagens sensíveis a traduções para mais de um idioma escreva diretamente
 nos arquivos da visão, algo como:
 
-<p>{$principal.teste}</p>
+&lt;p&gt;{$principal.teste}&lt;/p&gt;
 
 Ao despachar, o controlador vai no diretório config/i18n buscar pelo arquivo principal_pt_br.ini, 
 onde pt_br é obtido a partir do cabeçalho Http Accept-Language.
 Ele então substitui o texto original pelo valor da variável teste.
 É possível agrupar variáveis nesses arquivos com algo como:
 
-[tela_inicial]
+[tela_inicial]<br/>
 bemvindo = Seja Bem-Vindo ao Fácil MVC
 
 Para obter esta mensagem, basta inserir em algum arquivo da visão, o texto:
@@ -131,7 +161,7 @@ do diretório config).
 
 ### Combos de JS e CSS ###
 
-Uma prática recomendada por empresas como Google e Yahoo, é o de unificar arquivos js e css, evitando
+Uma prática recomendada por empresas como Google e Yahoo, é a de unificar arquivos js e css, evitando
 excesso de requisições HTTP e consequentemente melhorando o desempenho final.
 
 O Facil MVC traz duas maneiras de facilmente unir arquivos, se você criar um arquivo como:
