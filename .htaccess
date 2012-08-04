@@ -126,7 +126,7 @@ AddType text/x-vcard                        vcf
     # destes (minify) o que pode melhorar o desempenho se o gargalo
     # estiver no tráfego e não no processamento da máquina.
     ###################################################################
-    # RewriteRule .*?((js/)|(css/)|(imagens/)|(recursos/))(.*) index.php?_url=$0 [L]
+    # RewriteRule .*?((js/)|(css/))(.*) index.php?_url=$0 [L]
 
     ###################################################################
     # Direcionando toda URL que não apontar para recurso existente para
