@@ -296,15 +296,25 @@ class Facil {
         $modulos = array();
         $di = new \DirectoryIterator(\CONTROLADOR);
         foreach ($di as $arq) {
-            if ($arq->isDir() || $arq->isDot() ||
-                    $arq->getFilename() == "Facil.php" ||
-                    $arq->getFilename() == "ControleException.php")
-                continue;
-            $nome = explode(".", $arq->getFilename());
-            $modulos[] = $nome[0];
+            // Procurar por nomes de arquivos usados para definir classes Modulos
+            if (! $arq->isDir() &&
+                ! $arq->isDot() &&
+                  $arq->getFilename() != "Facil.php" &&
+                  $arq->getFilename() != "ControleException.php") {
+                $nome = explode(".", $arq->getFilename());
+                $modulos[] = $nome[0];
+            // Varrer módulos de subdiretórios
+            } elseif ($arq->isDir()) {
+                foreach ($arq as $sub) {
+                    if (!$sub->isDot()) {
+                        $nome = explode(".", $sub->getFilename());
+                        $modulos[] = $arq->getFilename() . "/" . $nome[0];
+                    }
+                }
+            } 
         }
 
-        // Varrendo todas as operações do módulo atual
+        // Varrendo todas as operações do módulo padrão
         $classe = new \ReflectionClass("controlador\\" . self::$dadosIni['modulo_padrao']);
 
         $metodos = array();
@@ -326,7 +336,7 @@ class Facil {
                               '((img/)|(css/)|(js/)|(recursos/))(.*?)([/ \'">])@iu', // seguida pelo conteúdo do recurso 
                               $saida, $ocorrencias, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
 
-        $adendo = BASE_DINAMICA . DS . substr(VISAO, strrpos(VISAO, '/')+1) . DS . self::getTemplate() . DS;
+        $adendo = BASE_DINAMICA . '/' . substr(VISAO, strrpos(VISAO, '/')+1) . DS . self::getTemplate() . DS;
         $desvio = 0;
         foreach ($ocorrencias as $ocorrencia) {
             $match = $ocorrencia[7][0];
