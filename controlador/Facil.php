@@ -1,7 +1,17 @@
 <?php
 
-namespace controlador;
+/**
+ * FacilMVC
+ *
+ * Controlador geral do framework
+ *
+ * @package FacilMVC
+ * @version 1.0RC1
+ * @author PHP Pernambuco <phppernambuco@googlegroups.com>
+ * @link https://github.com/phppe/FacilMVC
+ */
 
+namespace controlador;
 
 /**
  * Controlador geral do framework.
@@ -72,6 +82,12 @@ class Facil {
      * @var array
      */
     private static $variaveis = array();
+    
+    /**
+     *
+     * @var string Variavel de controle de tipo de documento utilizada na redução de css e js
+     */
+    private static $tipoDocumento = "html";
 
     //  -------------  Métodos públicos -------------------
 
@@ -87,6 +103,7 @@ class Facil {
         self::definirReportesDeErro();
         self::definirRegionalizacao();
         self::verificarSeArquivoEstatico();
+        self::enviarCabecalhosGerais();
     }
 
     /**
@@ -97,9 +114,18 @@ class Facil {
         self::recuperarModulo();
         self::recuperarAcao();
         self::checarParametros();
-        self::enviarCabecalhosGerais();
         self::invocarMetodo();
         self::exibirConsumoDeRecursos();
+    }
+
+    /**
+     * Método que retorna todas as configurações
+     * definidas no arquivo ini do ambiente selecionado
+     *
+     * @return array
+     */
+    public static function getDadosIni() {
+        return self::$dadosIni;
     }
 
     /**
@@ -110,12 +136,12 @@ class Facil {
      * @var $retornar boolean Se true retorna em vez de imprimir na saída
      *
      */
-    public static function despachar($_view , $retornar = false) {
+    public static function despachar($_view, $retornar = false) {
         // Se não for fornecida a extensão, sugerir a padrão
         if (strpos($_view, ".") === false) {
             $_view = $_view . self::$dadosIni['extensao_padrao'];
         }
-        
+
         // Verificando se a $view existe
         $incluir = VISAO . DS . self::getTemplate() . DS . $_view;
         if (!file_exists($incluir)) {
@@ -143,7 +169,7 @@ class Facil {
             echo $saida;
         }
     }
-    
+
     private static function enviarCabecalhosGerais() {
         // Útil para o Explorer procurar se comportar como na 
         // versão mais nova ou carregar o modo Chrome Frame
@@ -165,7 +191,7 @@ class Facil {
         } else if (substr($_acao, 0, 1) == "/") {
             $_acao = substr($_acao, 1);
         }
-        header("Location: " . \BASE_DINAMICA . "/$_acao" );
+        header("Location: " . \BASE_DINAMICA . "/$_acao");
         exit();
     }
 
@@ -175,7 +201,7 @@ class Facil {
      * 
      */
     public static function despacharErro($codigoHTTP, $depuracao = "") {
-        switch($codigoHTTP) {
+        switch ($codigoHTTP) {
             case 403:
                 $texto = "Forbidden";
                 break;
@@ -194,7 +220,6 @@ class Facil {
         self::setar('depuracao', $depuracao);
         self::despachar("controle.html");
     }
-    
 
     /**
      * Método que recupera a template escolhida no momento.
@@ -265,7 +290,7 @@ class Facil {
      * @param string $chave
      */
     public static function getFlash($chave) {
-        if (!session_id ()) {
+        if (!session_id()) {
             session_start();
         }
         if (isset($_SESSION['_flash'][$chave])) {
@@ -283,7 +308,7 @@ class Facil {
      * @param <type> $valor
      */
     public static function setFlash($chave, $valor) {
-        if (!session_id ()) {
+        if (!session_id()) {
             session_start();
         }
         $_SESSION['_flash'][$chave] = $valor;
@@ -291,19 +316,19 @@ class Facil {
 
     public static function resolverLinksDoControle($entrada) {
         $path = BASE_DINAMICA . "/";
-        
+
         // Varrendo todas as classes Modulo
         $modulos = array();
         $di = new \DirectoryIterator(\CONTROLADOR);
         foreach ($di as $arq) {
             // Procurar por nomes de arquivos usados para definir classes Modulos
-            if (! $arq->isDir() &&
-                ! $arq->isDot() &&
-                  $arq->getFilename() != "Facil.php" &&
-                  $arq->getFilename() != "ControleException.php") {
+            if (!$arq->isDir() &&
+                    !$arq->isDot() &&
+                    $arq->getFilename() != "Facil.php" &&
+                    $arq->getFilename() != "ControleException.php") {
                 $nome = explode(".", $arq->getFilename());
                 $modulos[] = $nome[0];
-            // Varrer módulos de subdiretórios
+                // Varrer módulos de subdiretórios
             } elseif ($arq->isDir()) {
                 foreach ($arq as $sub) {
                     if (!$sub->isDot()) {
@@ -311,7 +336,7 @@ class Facil {
                         $modulos[] = $arq->getFilename() . "/" . $nome[0];
                     }
                 }
-            } 
+            }
         }
 
         // Varrendo todas as operações do módulo padrão
@@ -326,17 +351,15 @@ class Facil {
         }
         $substituicoes = array_merge($modulos, $metodos);
         // Inserindo o caminho em BASE_DINAMICA para todos os links do arquivo HTML recuperado 
-        $saida = preg_replace("@(href|action)\\s*=\\s*(['\"]?)(" . implode("|", $substituicoes) . ")([/ '\">])@i",
-                        "\\1=\\2$path\\3\\4", $entrada);
+        $saida = preg_replace("@(href|action)\\s*=\\s*(['\"]?)(" . implode("|", $substituicoes) . ")([/ '\">])@i", "\\1=\\2$path\\3\\4", $entrada);
         return $saida;
     }
-    
+
     public static function resolverReferenciasARecursos($saida) {
         $ret = preg_match_all('@((href\s*=\s*)|(action\s*=\s*)|(src\s*=\s*)|(url\s*\(\s*))([\'"]?)' . // abertura da instrução
-                              '((img/)|(css/)|(js/)|(recursos/))(.*?)([/ \'">])@iu', // seguida pelo conteúdo do recurso 
-                              $saida, $ocorrencias, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
-
-        $adendo = BASE_DINAMICA . '/' . substr(VISAO, strrpos(VISAO, '/')+1) . DS . self::getTemplate() . DS;
+                '((img/)|(css/)|(js/)|(recursos/))(.*?)([/ \'">])@iu', // seguida pelo conteúdo do recurso 
+                $saida, $ocorrencias, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
+        $adendo = BASE_DINAMICA . '/visao/' . self::getTemplate() . '/';
         $desvio = 0;
         foreach ($ocorrencias as $ocorrencia) {
             $match = $ocorrencia[7][0];
@@ -383,11 +406,12 @@ class Facil {
                         $memoria -= $exibir * $kb;
                     }
                 }
-                if ($memoria) echo $memoria . "bytes\n";
+                if ($memoria)
+                    echo $memoria . "bytes\n";
             }
         }
     }
-    
+
     /**
      * Método para carregar alguma lib de terceiros
      * @param string $nome Nome da biblioteca (lib)
@@ -395,7 +419,6 @@ class Facil {
      */
     public static function carregarLib($nome) {
         if (file_exists(LIB . DS . $nome . "Plugin.php")) {
-            header("Content-type: text/html");
             eval("\$obj = \lib\\{$nome}Plugin::getInstance();");
             $obj->carregar();
             return $obj;
@@ -416,7 +439,7 @@ class Facil {
             $_GET['_url'] = $_SERVER['argv'][1];
         }
     }
-    
+
     private static function recuperarAmbiente() {
         if (isset($_GET['_url'])) {
             $url = $_GET['_url'];
@@ -426,11 +449,11 @@ class Facil {
             $url = $_GET['_combodir'];
         }
         // Captura dados ini padrão
-        self::$dadosIni = parse_ini_file(CONFIG . DS . 'padrao.ini', true);            
+        self::$dadosIni = parse_ini_file(CONFIG . DS . 'padrao.ini', true);
         if (!empty($url)) {
             // Captura dos dados passados na URL
             self::$dadosUrl = explode("/", $url);
-            
+
             // Se for possível sugerir o ambiente
             // e houver arquivo de configuração para o ambiente sugerido
             if (self::$dadosIni['sugerir_ambiente'] &&
@@ -446,7 +469,7 @@ class Facil {
         }
         self::$ambiente = self::$dadosIni['ambiente_padrao'];
     }
-    
+
     private static function registrarArquivoIni($novoIni = "") {
         if (empty($novoIni)) {
             $ini = CONFIG . DS . self::$ambiente . '.ini';
@@ -497,7 +520,7 @@ class Facil {
         // Definição do charset
         header("Content-type: text/html; charset=" . self::$dadosIni['l10n']['charset']);
     }
-    
+
     public static function verificarSeArquivoEstatico() {
         // Recuperar variável _combo que traz o nome do arquivo
         // que serve de combo de arquivos Javascript e CSS
@@ -506,6 +529,7 @@ class Facil {
             self::cabecalhosDeArquivosEstaticos($combo);
             if (file_exists($combo)) {
                 $arqs = file($combo, FILE_IGNORE_NEW_LINES);
+                $arqs = array_map('trim', $arqs); // retirando prováveis espaços em branco
                 $dir = dirname($combo) . DS;
                 ob_start();
                 $arquivoMaisNovo = filemtime($combo);
@@ -525,7 +549,7 @@ class Facil {
                 exit();
             }
         }
-        
+
         if (!empty($_GET['_combodir'])) {
             $combodir = RAIZ . DS . preg_replace("|^" . self::$ambiente . "/|i", "/", $_GET['_combodir']);
             self::cabecalhosDeArquivosEstaticos($combodir);
@@ -546,7 +570,7 @@ class Facil {
                 exit();
             }
         }
-        
+
         // Verificando se houve uma chamada direta a arquivo estático que
         // acabou caindo aqui por estar prefixada com o nome do ambiente
         // ou foi deliberadamente mapeada no .htaccess
@@ -571,12 +595,14 @@ class Facil {
         header("Last-modified: " . gmdate('r'));
 
         if (substr($caminho, -4) == ".css") {
-            header("Content-type: text/css");
+            self::$tipoDocumento = "css";
+            header("Content-type: text/css; charset=" . self::$dadosIni['l10n']['charset']);
         } else if (substr($caminho, -3) == ".js") {
-            header("Content-type: application/javascript");
+            self::$tipoDocumento = "js";
+            header("Content-type: application/javascript; charset=" . self::$dadosIni['l10n']['charset']);
         }
     }
-    
+
     /**
      * Método para retornar a resposta ao cliente em 
      * solicitações de arquivos estáticos como JS e CSS.
@@ -586,7 +612,7 @@ class Facil {
     private static function responderArquivosEstaticos($arquivoMaisNovo) {
         ini_set('date.timezone', 'America/Recife');
         if (!empty($_SERVER["HTTP_IF_MODIFIED_SINCE"])) {
-            $if_modified_since = strtotime(preg_replace('/;.*$/','',$_SERVER["HTTP_IF_MODIFIED_SINCE"]));
+            $if_modified_since = strtotime(preg_replace('/;.*$/', '', $_SERVER["HTTP_IF_MODIFIED_SINCE"]));
         } else {
             $if_modified_since = 0;
         }
@@ -597,46 +623,50 @@ class Facil {
             $saida = ob_get_contents();
             ob_end_clean();
             $saida = self::internacionalizar($saida);
-            echo (self::$dadosIni['saida']['reduzir_scripts'] > 0) ? self::reduzirConteudo($saida) : $saida;
+            if (self::$tipoDocumento == "js") {
+                echo (self::$dadosIni['saida']['reduzir_scripts'] > 0) ? self::reduzirConteudo($saida, "reduzir_scripts") : $saida;
+            } else if (self::$tipoDocumento == "css") {
+                echo (self::$dadosIni['saida']['reduzir_estilos'] > 0) ? self::reduzirConteudo($saida, "reduzir_estilos") : $saida;
+            }
+            
         }
         exit();
     }
-    
-    private static function reduzirConteudo($entrada) {
+
+    private static function reduzirConteudo($entrada, $diretiva) {
         /**
          * MinifyJsPlugin
          */
         $minify = self::carregarLib("MinifyJs");
-        return $minify->minimizar($entrada, self::$dadosIni['saida']['reduzir_scripts'], 
-                "/**\n" .
-                 "* Adaptação ao FacilMVC da implementação em PHP feita por Ryan Grove\n".
-                 "* da biblioteca original JSMin de Douglas Crockford\n".
-                 "*/");
+        return $minify->minimizar($entrada, self::$dadosIni['saida'][$diretiva], "/**\n" .
+                        "* Adaptação ao FacilMVC da implementação em PHP feita por Ryan Grove\n" .
+                        "* da biblioteca original JSMin de Douglas Crockford\n" .
+                        "*/");
     }
 
     /**
      * Método para buscar na URL a classe e o método que vamos instanciar e executar, respectivamente
      */
     private static function registrarModuloEAcao() {
-    	// retirando a última posição de $dadosUrl se ela for string vazia
-        if (!empty(self::$dadosUrl) && empty(self::$dadosUrl[count(self::$dadosUrl)-1])) {
+        // retirando a última posição de $dadosUrl se ela for string vazia
+        if (!empty(self::$dadosUrl) && empty(self::$dadosUrl[count(self::$dadosUrl) - 1])) {
             array_pop(self::$dadosUrl);
         }
-        
+
         // Se ainda houver registros na URL - retirar módulo
-    	if (count(self::$dadosUrl) > 0) {
+        if (count(self::$dadosUrl) > 0) {
             // Retirar a informação do módulo
             self::$modulo = array_shift(self::$dadosUrl);
             // Se ainda houver registros na URL - retirar ação
             if (count(self::$dadosUrl) > 0) {
                 self::$acao = array_shift(self::$dadosUrl);
-            // Se não houver mais
+                // Se não houver mais
             } else {
                 // Apenas ação determinada a partir
                 // do padrão para aquele ambiente
                 self::$acao = self::$dadosIni['acao_padrao'];
             }
-        // Se não houver mais
+            // Se não houver mais
         } else {
             // Módulo e ação determinados a partir
             // do padrão para aquele ambiente
@@ -649,39 +679,38 @@ class Facil {
      * Método que busca a classe do módulo registrado
      */
     private static function recuperarModulo() {
-    	// Se o que chamamos de módulo for um diretório existente no controlador
-    	if (is_dir(RAIZ . DS . self::$namespace . DS . self::$modulo)) {
-    		// Dar um shift pra direita nos nomes dos elementos
-    		// Quem é primeiro parâmetro vira metodo, que é método vira parametro
-    		self::$namespace .= "\\" . self::$modulo;
-    		self::$modulo = self::$acao;
-			if (count(self::$dadosUrl) > 0) {
-				self::$acao = array_shift(self::$dadosUrl);
-			} else {
-				self::$acao = self::$dadosIni['acao_padrao'];
-			}
-    	}
+        // Se o que chamamos de módulo for um diretório existente no controlador
+        if (is_dir(RAIZ . DS . self::$namespace . DS . self::$modulo)) {
+            // Dar um shift pra direita nos nomes dos elementos
+            // Quem é primeiro parâmetro vira metodo, que é método vira parametro
+            self::$namespace .= "\\" . self::$modulo;
+            self::$modulo = self::$acao;
+            if (count(self::$dadosUrl) > 0) {
+                self::$acao = array_shift(self::$dadosUrl);
+            } else {
+                self::$acao = self::$dadosIni['acao_padrao'];
+            }
+        }
         // Se a classe não existe, verificar se a chamada é para o método direto
-    	if (!class_exists(self::$namespace . "\\" . ucfirst(self::$modulo))) {
-    		// Recuperando os parâmetros passados
-    		if ((self::$acao != self::$dadosIni['acao_padrao']) && (self::$acao != self::$modulo)) {
-    			array_unshift(self::$dadosUrl, self::$acao);
-    		}
+        if (!class_exists(self::$namespace . "\\" . ucfirst(self::$modulo))) {
+            // Recuperando os parâmetros passados
+            if ((self::$acao != self::$dadosIni['acao_padrao']) && (self::$acao != self::$modulo)) {
+                array_unshift(self::$dadosUrl, self::$acao);
+            }
 
-    		self::$acao = self::$modulo;
-    		self::$modulo = self::$dadosIni['modulo_padrao'];
-    	}
+            self::$acao = self::$modulo;
+            self::$modulo = self::$dadosIni['modulo_padrao'];
+        }
 
-    	// Se agora a classe passou a existir
-    	if (class_exists(self::$namespace . "\\" . ucfirst(self::$modulo))) {
-    		// Cria o objeto
-	    	$obj = self::$namespace . "\\" . ucfirst(self::$modulo);
-			self::$objeto = new $obj();
-    	} else {
+        // Se agora a classe passou a existir
+        if (class_exists(self::$namespace . "\\" . ucfirst(self::$modulo))) {
+            // Cria o objeto
+            $obj = self::$namespace . "\\" . ucfirst(self::$modulo);
+            self::$objeto = new $obj();
+        } else {
             throw new ControleException(ControleException::MODULO_INEXISTENTE,
-            							self::$namespace . "\\" . ucfirst(self::$modulo));
-
-    	}
+                    self::$namespace . "\\" . ucfirst(self::$modulo));
+        }
     }
 
     /**
@@ -696,21 +725,20 @@ class Facil {
      */
     private static function recuperarAcao() {
         try {
-	    	$rc = new \ReflectionClass(self::$namespace . "\\" . ucfirst(self::$modulo));
-	        // Se não existir, a linha abaixo levantará
-	        // uma ReflectionException
-	        $metodo = $rc->getMethod(self::$acao);
-	        // Já que passou $metodo é um ReflectionMethod
-	        // Verificando se o método é visível
-	        if ($metodo->isPublic()) {
-	            self::$metodo = $metodo;
+            $rc = new \ReflectionClass(self::$namespace . "\\" . ucfirst(self::$modulo));
+            // Se não existir, a linha abaixo levantará
+            // uma ReflectionException
+            $metodo = $rc->getMethod(self::$acao);
+            // Já que passou $metodo é um ReflectionMethod
+            // Verificando se o método é visível
+            if ($metodo->isPublic()) {
+                self::$metodo = $metodo;
                 // Se não for vísivel, lenvantar ControleException
-	        } else {
-	            throw new
-	            ControleException(ControleException::ACAO_PROTEGIDA,
-	                    self::$namespace . "\\" . ucfirst(self::$modulo) . "::" . self::$acao);
-	        }
-
+            } else {
+                throw new
+                ControleException(ControleException::ACAO_PROTEGIDA,
+                        self::$namespace . "\\" . ucfirst(self::$modulo) . "::" . self::$acao);
+            }
         } catch (\ReflectionException $ex) {
             try {
                 self::$metodo = $rc->getMethod('__call');
@@ -731,7 +759,7 @@ class Facil {
     private static function checarParametros() {
         // Se o total de parâmetros não suprir o número requerido
         if (self::$metodo->getName() != '__call' &&
-            count(self::$dadosUrl) <
+                count(self::$dadosUrl) <
                 self::$metodo->getNumberOfRequiredParameters()) {
             throw new ControleException(
                     ControleException::PARAMETROS_INSUFICIENTES,
@@ -750,7 +778,6 @@ class Facil {
         } else {
             self::$metodo->invokeArgs(self::$objeto, self::$dadosUrl ? : array());
         }
-        
     }
 
     private static function internacionalizar($saida) {
