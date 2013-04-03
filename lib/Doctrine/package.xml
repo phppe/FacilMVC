@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+ <name>DoctrineORM</name>
+ <channel>pear.doctrine-project.org</channel>
+ <summary>Doctrine Object Relational Mapper</summary>
+ <description>The Doctrine ORM package is the primary package containing the object relational mapper.</description>
+ <lead>
+  <name>Jonathan H. Wage</name>
+  <user>jwage</user>
+  <email>jonwage@gmail.com</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Guilherme Blanco</name>
+  <user>guilhermeblanco</user>
+  <email>guilhermeblanco@gmail.com</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Roman Borschel</name>
+  <user>romanb</user>
+  <email>roman@code-factory.org</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Benjamin Eberlei</name>
+  <user>beberlei</user>
+  <email>kontakt@beberlei.de</email>
+  <active>yes</active>
+ </lead>
+ <date>2013-01-07</date>
+ <time>15:10:58</time>
+ <version>
+  <release>2.3.2</release>
+  <api>2.3.2</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.gnu.org/licenses/lgpl.html">LGPL</license>
+ <notes>
+-
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <file baseinstalldir="/" md5sum="90cb720ab018a38f80858b80a083963d" name="bin/doctrine" role="script">
+    <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
+   </file>
+   <file baseinstalldir="/" md5sum="c76e3c507e659ecbf53a9a9d3fbf0518" name="bin/doctrine-pear.php" role="script" />
+   <file baseinstalldir="/" md5sum="f7f19e79753fea89cc9874344ab2791f" name="bin/doctrine.bat" role="script">
+    <tasks:replace from="@bin_dir@" to="bin_dir" type="pear-config" />
+   </file>
+   <file baseinstalldir="/" md5sum="d925b85ced226b62e788b0bf5a75da07" name="Doctrine/ORM/AbstractQuery.php" role="php" />
+   <file baseinstalldir="/" md5sum="311ad6739e294ff795682fd9443b41f2" name="Doctrine/ORM/Configuration.php" role="php" />
+   <file baseinstalldir="/" md5sum="cdb8ab869f437367420a20e9a834a502" name="Doctrine/ORM/EntityManager.php" role="php" />
+   <file baseinstalldir="/" md5sum="c01113ea5e6cbcb3eff311b387ba584f" name="Doctrine/ORM/EntityNotFoundException.php" role="php" />
+   <file baseinstalldir="/" md5sum="989e17a64345b986e09912d98d4f7d13" name="Doctrine/ORM/EntityRepository.php" role="php" />
+   <file baseinstalldir="/" md5sum="5c011365225760b27ff34636c52a9cf7" name="Doctrine/ORM/Events.php" role="php" />
+   <file baseinstalldir="/" md5sum="6069ea667fd2af827954d2b5b595f84b" name="Doctrine/ORM/NativeQuery.php" role="php" />
+   <file baseinstalldir="/" md5sum="42f426a9ccfc22dada3e44da408312de" name="Doctrine/ORM/NonUniqueResultException.php" role="php" />
+   <file baseinstalldir="/" md5sum="5c3702ef6bf304a4eb49cf27a17f5151" name="Doctrine/ORM/NoResultException.php" role="php" />
+   <file baseinstalldir="/" md5sum="699f0555d4ca5eddeb2d7c5b02ed0047" name="Doctrine/ORM/OptimisticLockException.php" role="php" />
+   <file baseinstalldir="/" md5sum="ad3c1d0ef1af5ac576a303d262ca50f1" name="Doctrine/ORM/ORMException.php" role="php" />
+   <file baseinstalldir="/" md5sum="4f65bebfb8d035f3a0096ff94640f81c" name="Doctrine/ORM/ORMInvalidArgumentException.php" role="php" />
+   <file baseinstalldir="/" md5sum="0e56d025609114cc58c5463393c6b80b" name="Doctrine/ORM/PersistentCollection.php" role="php" />
+   <file baseinstalldir="/" md5sum="cbb52d69ec3443573b5aa006366e597a" name="Doctrine/ORM/PessimisticLockException.php" role="php" />
+   <file baseinstalldir="/" md5sum="3df1916a7ca7b0aa7c03766972d4112c" name="Doctrine/ORM/Query.php" role="php" />
+   <file baseinstalldir="/" md5sum="507497d699fd8d4378e8e4114dad8b18" name="Doctrine/ORM/QueryBuilder.php" role="php" />
+   <file baseinstalldir="/" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="Doctrine/ORM/README.markdown" role="data" />
+   <file baseinstalldir="/" md5sum="cefb74ee14aec0cf18a6966a5d5243a0" name="Doctrine/ORM/TransactionRequiredException.php" role="php" />
+   <file baseinstalldir="/" md5sum="ccb6d3ec8ecc268a39947f33ac613cba" name="Doctrine/ORM/UnexpectedResultException.php" role="php" />
+   <file baseinstalldir="/" md5sum="d5c4a7d66246265f86cd7a5417c4399d" name="Doctrine/ORM/UnitOfWork.php" role="php" />
+   <file baseinstalldir="/" md5sum="b83e116113c872e383f34da0b2d7b60a" name="Doctrine/ORM/Version.php" role="php" />
+   <file baseinstalldir="/" md5sum="9c91c3105a6c9077813bf662b5686dee" name="Doctrine/ORM/Event/LifecycleEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="a70705123ab6ae2b33bb08495dd2bbdf" name="Doctrine/ORM/Event/LoadClassMetadataEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="26d99206f07df97a4d169d9c95f1e5ef" name="Doctrine/ORM/Event/OnClearEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="3a9639c212f3fe7c196bbb2e31fcc65d" name="Doctrine/ORM/Event/OnFlushEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="39eed851e571e4d9d583acbacacf73b0" name="Doctrine/ORM/Event/PostFlushEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="af932cbd2a8a53798c1f9dbd82b95bb8" name="Doctrine/ORM/Event/PreFlushEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="8289caef15e4a682e5f8145273e6cc16" name="Doctrine/ORM/Event/PreUpdateEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="965854d803888bc2bd0ecc4698fef89b" name="Doctrine/ORM/Id/AbstractIdGenerator.php" role="php" />
+   <file baseinstalldir="/" md5sum="03f114def36fb3adc31a32d281b011b0" name="Doctrine/ORM/Id/AssignedGenerator.php" role="php" />
+   <file baseinstalldir="/" md5sum="cc7c7c9634db59939fc92ba08ba86f60" name="Doctrine/ORM/Id/IdentityGenerator.php" role="php" />
+   <file baseinstalldir="/" md5sum="cafe9bc3ada3af90b515801630ecfdfc" name="Doctrine/ORM/Id/SequenceGenerator.php" role="php" />
+   <file baseinstalldir="/" md5sum="1be483f27ec4359c167988b5d67b6fba" name="Doctrine/ORM/Id/TableGenerator.php" role="php" />
+   <file baseinstalldir="/" md5sum="9c7e10ab6e0d33cb6f175032ce98b54f" name="Doctrine/ORM/Id/UuidGenerator.php" role="php" />
+   <file baseinstalldir="/" md5sum="503af935448da26f5831828be292120d" name="Doctrine/ORM/Internal/CommitOrderCalculator.php" role="php" />
+   <file baseinstalldir="/" md5sum="56d4dfd6b22a06ac4acf4f06b87c58c1" name="Doctrine/ORM/Internal/Hydration/AbstractHydrator.php" role="php" />
+   <file baseinstalldir="/" md5sum="5010d76fd2601f931e1b09d629955946" name="Doctrine/ORM/Internal/Hydration/ArrayHydrator.php" role="php" />
+   <file baseinstalldir="/" md5sum="fb2fb4d5ac2ac4248b21a7f2e4697f77" name="Doctrine/ORM/Internal/Hydration/HydrationException.php" role="php" />
+   <file baseinstalldir="/" md5sum="51467fe5e9ad443d7597445268ab2b13" name="Doctrine/ORM/Internal/Hydration/IterableResult.php" role="php" />
+   <file baseinstalldir="/" md5sum="973e05da8ecf62de7a1c6ceef43d5511" name="Doctrine/ORM/Internal/Hydration/ObjectHydrator.php" role="php" />
+   <file baseinstalldir="/" md5sum="eae609304ba7db0ac1807982014abe41" name="Doctrine/ORM/Internal/Hydration/ScalarHydrator.php" role="php" />
+   <file baseinstalldir="/" md5sum="0c13be708ed2c84c996da620e230c26f" name="Doctrine/ORM/Internal/Hydration/SimpleObjectHydrator.php" role="php" />
+   <file baseinstalldir="/" md5sum="2bfa8aab09d0c8274feb914472ddfa0f" name="Doctrine/ORM/Internal/Hydration/SingleScalarHydrator.php" role="php" />
+   <file baseinstalldir="/" md5sum="a1986e38eda80dbb7a4f8a1359f2f4c1" name="Doctrine/ORM/Mapping/Annotation.php" role="php" />
+   <file baseinstalldir="/" md5sum="1202c4048f41cd8cf05891ce5ea1bcd5" name="Doctrine/ORM/Mapping/AssociationOverride.php" role="php" />
+   <file baseinstalldir="/" md5sum="a88f7231ece10afb411c0a5e08c4b263" name="Doctrine/ORM/Mapping/AssociationOverrides.php" role="php" />
+   <file baseinstalldir="/" md5sum="0f09f821f49f1542213284854d890907" name="Doctrine/ORM/Mapping/AttributeOverride.php" role="php" />
+   <file baseinstalldir="/" md5sum="db8a2de25f37da890d75bab9de90e7aa" name="Doctrine/ORM/Mapping/AttributeOverrides.php" role="php" />
+   <file baseinstalldir="/" md5sum="bce0e8e3a0c6eddb9eda5e3eb5b4dea9" name="Doctrine/ORM/Mapping/ChangeTrackingPolicy.php" role="php" />
+   <file baseinstalldir="/" md5sum="d77fd2cb4d220aa99898d705b1a8af38" name="Doctrine/ORM/Mapping/ClassMetadata.php" role="php" />
+   <file baseinstalldir="/" md5sum="4466e4728f470db5b66a637223f8cc78" name="Doctrine/ORM/Mapping/ClassMetadataFactory.php" role="php" />
+   <file baseinstalldir="/" md5sum="b10616c4d225a5dad17cfd88a01e44d6" name="Doctrine/ORM/Mapping/ClassMetadataInfo.php" role="php" />
+   <file baseinstalldir="/" md5sum="0df2cd7b13a45d3dce4ecfdae94b0883" name="Doctrine/ORM/Mapping/Column.php" role="php" />
+   <file baseinstalldir="/" md5sum="1633409a777bb3cff398878665258760" name="Doctrine/ORM/Mapping/ColumnResult.php" role="php" />
+   <file baseinstalldir="/" md5sum="c954b98188cf630123e34af6b4725a4f" name="Doctrine/ORM/Mapping/CustomIdGenerator.php" role="php" />
+   <file baseinstalldir="/" md5sum="08a09a30e6af18df0f40284df632dbbc" name="Doctrine/ORM/Mapping/DefaultNamingStrategy.php" role="php" />
+   <file baseinstalldir="/" md5sum="8107b81907d934fe28282220be1fd9df" name="Doctrine/ORM/Mapping/DefaultQuoteStrategy.php" role="php" />
+   <file baseinstalldir="/" md5sum="bde9deccc392454b5989a7c214551447" name="Doctrine/ORM/Mapping/DiscriminatorColumn.php" role="php" />
+   <file baseinstalldir="/" md5sum="6271e43d98f74d25356f27df41170a8b" name="Doctrine/ORM/Mapping/DiscriminatorMap.php" role="php" />
+   <file baseinstalldir="/" md5sum="1ca3221fe6c628d28a53a4834a254817" name="Doctrine/ORM/Mapping/ElementCollection.php" role="php" />
+   <file baseinstalldir="/" md5sum="c052a6526dcc11ec5c6226ba7439dc20" name="Doctrine/ORM/Mapping/Entity.php" role="php" />
+   <file baseinstalldir="/" md5sum="ff9c7d4031e2eadf4df288f9965bb310" name="Doctrine/ORM/Mapping/EntityResult.php" role="php" />
+   <file baseinstalldir="/" md5sum="05b3c13a56af0b0b16481181ceea4d96" name="Doctrine/ORM/Mapping/FieldResult.php" role="php" />
+   <file baseinstalldir="/" md5sum="1f1de9bb1a1ad8e5aca2fd98eed1f128" name="Doctrine/ORM/Mapping/GeneratedValue.php" role="php" />
+   <file baseinstalldir="/" md5sum="879d467451ff99f7fb7cb87c16aeedb0" name="Doctrine/ORM/Mapping/HasLifecycleCallbacks.php" role="php" />
+   <file baseinstalldir="/" md5sum="a336eed511da31b0b774b8c5543a4eae" name="Doctrine/ORM/Mapping/Id.php" role="php" />
+   <file baseinstalldir="/" md5sum="c6502f906bbe5a21fe3d67559d0b1d1d" name="Doctrine/ORM/Mapping/Index.php" role="php" />
+   <file baseinstalldir="/" md5sum="7441ebbfb42afe9c37f6fd7d9971ab52" name="Doctrine/ORM/Mapping/InheritanceType.php" role="php" />
+   <file baseinstalldir="/" md5sum="5612c82ab66c421838858c8720c001e9" name="Doctrine/ORM/Mapping/JoinColumn.php" role="php" />
+   <file baseinstalldir="/" md5sum="04fa8effb76108e0bf543b970e4d35a0" name="Doctrine/ORM/Mapping/JoinColumns.php" role="php" />
+   <file baseinstalldir="/" md5sum="6890a7cec267865265ad3bbc55603360" name="Doctrine/ORM/Mapping/JoinTable.php" role="php" />
+   <file baseinstalldir="/" md5sum="60010eac3f2dd116fb45ceb4b17fa213" name="Doctrine/ORM/Mapping/ManyToMany.php" role="php" />
+   <file baseinstalldir="/" md5sum="e463ded99c50c8774277e5afafa6fb0a" name="Doctrine/ORM/Mapping/ManyToOne.php" role="php" />
+   <file baseinstalldir="/" md5sum="d03385c16a2710f28759930b76a936ee" name="Doctrine/ORM/Mapping/MappedSuperclass.php" role="php" />
+   <file baseinstalldir="/" md5sum="df9237f66e265d8f65aa71fa11de0bf2" name="Doctrine/ORM/Mapping/MappingException.php" role="php" />
+   <file baseinstalldir="/" md5sum="226aca7071c2880d5288adf774ef5d97" name="Doctrine/ORM/Mapping/NamedNativeQueries.php" role="php" />
+   <file baseinstalldir="/" md5sum="791b7f77a41368b0cbaf7e3ad97178c6" name="Doctrine/ORM/Mapping/NamedNativeQuery.php" role="php" />
+   <file baseinstalldir="/" md5sum="6d8e511ad5cf5fb2c294a5876cf4d69c" name="Doctrine/ORM/Mapping/NamedQueries.php" role="php" />
+   <file baseinstalldir="/" md5sum="8a23390e5715cd6c62e33fc2abc56108" name="Doctrine/ORM/Mapping/NamedQuery.php" role="php" />
+   <file baseinstalldir="/" md5sum="aa79792d605119beb07dfc08350a5520" name="Doctrine/ORM/Mapping/NamingStrategy.php" role="php" />
+   <file baseinstalldir="/" md5sum="28bf0d04965c5479f127eb0b3540d88d" name="Doctrine/ORM/Mapping/OneToMany.php" role="php" />
+   <file baseinstalldir="/" md5sum="b839f22767bcd0d2ed08a8ecbbc0ce53" name="Doctrine/ORM/Mapping/OneToOne.php" role="php" />
+   <file baseinstalldir="/" md5sum="a32ae02c3dac5269b446f2a12d1c47d6" name="Doctrine/ORM/Mapping/OrderBy.php" role="php" />
+   <file baseinstalldir="/" md5sum="f77377fa1e0add7596f1534786b187f5" name="Doctrine/ORM/Mapping/PostLoad.php" role="php" />
+   <file baseinstalldir="/" md5sum="bdac46dac180fe377dfc87d177a9ac75" name="Doctrine/ORM/Mapping/PostPersist.php" role="php" />
+   <file baseinstalldir="/" md5sum="c6238e10b498160ebe064ef58673aa33" name="Doctrine/ORM/Mapping/PostRemove.php" role="php" />
+   <file baseinstalldir="/" md5sum="a74e94e68b12eeb953ff85764f04f9f3" name="Doctrine/ORM/Mapping/PostUpdate.php" role="php" />
+   <file baseinstalldir="/" md5sum="209ebf1914e2d47bd6b39486e7c0f1df" name="Doctrine/ORM/Mapping/PreFlush.php" role="php" />
+   <file baseinstalldir="/" md5sum="5bb7ba2829ef7a42066e3691a1e3c815" name="Doctrine/ORM/Mapping/PrePersist.php" role="php" />
+   <file baseinstalldir="/" md5sum="bba166c5e089d7f9387ebc293ed76689" name="Doctrine/ORM/Mapping/PreRemove.php" role="php" />
+   <file baseinstalldir="/" md5sum="0b80d40854a0594f7aa57b4c3077f0f9" name="Doctrine/ORM/Mapping/PreUpdate.php" role="php" />
+   <file baseinstalldir="/" md5sum="9bab13683c22901998296b87111c0dc1" name="Doctrine/ORM/Mapping/QuoteStrategy.php" role="php" />
+   <file baseinstalldir="/" md5sum="8f151c49a32f66165fb6e444e55786e8" name="Doctrine/ORM/Mapping/SequenceGenerator.php" role="php" />
+   <file baseinstalldir="/" md5sum="4671248add5a30d95a2872104cf543eb" name="Doctrine/ORM/Mapping/SqlResultSetMapping.php" role="php" />
+   <file baseinstalldir="/" md5sum="eab4794728e57d6d2532deb374749d90" name="Doctrine/ORM/Mapping/SqlResultSetMappings.php" role="php" />
+   <file baseinstalldir="/" md5sum="6521a5900cc87b875fd7f8b5f5163816" name="Doctrine/ORM/Mapping/Table.php" role="php" />
+   <file baseinstalldir="/" md5sum="132d9d0520a4a0d3af7e6ea5736bd683" name="Doctrine/ORM/Mapping/UnderscoreNamingStrategy.php" role="php" />
+   <file baseinstalldir="/" md5sum="85bbdd93f7cf318c3d175ede0262d667" name="Doctrine/ORM/Mapping/UniqueConstraint.php" role="php" />
+   <file baseinstalldir="/" md5sum="5c233dad5302d4751f64a8e076484354" name="Doctrine/ORM/Mapping/Version.php" role="php" />
+   <file baseinstalldir="/" md5sum="36453a90276dd3db4f724864ca691343" name="Doctrine/ORM/Mapping/Builder/AssociationBuilder.php" role="php" />
+   <file baseinstalldir="/" md5sum="d290a95abe8b96594aa1b837eb8c6b03" name="Doctrine/ORM/Mapping/Builder/ClassMetadataBuilder.php" role="php" />
+   <file baseinstalldir="/" md5sum="a0fcdcd7613837d0a5c8b1dd6da3025c" name="Doctrine/ORM/Mapping/Builder/FieldBuilder.php" role="php" />
+   <file baseinstalldir="/" md5sum="0e2dd2fcf4141f501dc44307be4b0186" name="Doctrine/ORM/Mapping/Builder/ManyToManyAssociationBuilder.php" role="php" />
+   <file baseinstalldir="/" md5sum="a7db7e6bd0e727353aaa602627cfe270" name="Doctrine/ORM/Mapping/Builder/OneToManyAssociationBuilder.php" role="php" />
+   <file baseinstalldir="/" md5sum="f8db9b872de3f474637b05e30ece8dc6" name="Doctrine/ORM/Mapping/Driver/AnnotationDriver.php" role="php" />
+   <file baseinstalldir="/" md5sum="7d3cb71548d04f5e8174a19bec612925" name="Doctrine/ORM/Mapping/Driver/DatabaseDriver.php" role="php" />
+   <file baseinstalldir="/" md5sum="5ac41eac8ed4fd58835f6a8260d22189" name="Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php" role="php" />
+   <file baseinstalldir="/" md5sum="763aef754db149787029a9a5e1ab7181" name="Doctrine/ORM/Mapping/Driver/DriverChain.php" role="php" />
+   <file baseinstalldir="/" md5sum="e6430e3c28d0524f7770101a0bbb761d" name="Doctrine/ORM/Mapping/Driver/PHPDriver.php" role="php" />
+   <file baseinstalldir="/" md5sum="6fef259ff2ae673402a0ab540486c4b4" name="Doctrine/ORM/Mapping/Driver/SimplifiedXmlDriver.php" role="php" />
+   <file baseinstalldir="/" md5sum="8a714dc1091d67573e8df4b3b44eb773" name="Doctrine/ORM/Mapping/Driver/SimplifiedYamlDriver.php" role="php" />
+   <file baseinstalldir="/" md5sum="09dcb9671a445c80f50fc875884a9d3a" name="Doctrine/ORM/Mapping/Driver/StaticPHPDriver.php" role="php" />
+   <file baseinstalldir="/" md5sum="1c770216984355987d50832243da5f7a" name="Doctrine/ORM/Mapping/Driver/XmlDriver.php" role="php" />
+   <file baseinstalldir="/" md5sum="35d6a2dc24242cb1bbbaee7e48ab82d0" name="Doctrine/ORM/Mapping/Driver/YamlDriver.php" role="php" />
+   <file baseinstalldir="/" md5sum="fb2e54b32ebb1ffd6cc7a05dbfabb10b" name="Doctrine/ORM/Persisters/AbstractCollectionPersister.php" role="php" />
+   <file baseinstalldir="/" md5sum="7d67d911a6f1693558995f24657b2e10" name="Doctrine/ORM/Persisters/AbstractEntityInheritancePersister.php" role="php" />
+   <file baseinstalldir="/" md5sum="d75509aed5a084dd695385a5be5b63a3" name="Doctrine/ORM/Persisters/BasicEntityPersister.php" role="php" />
+   <file baseinstalldir="/" md5sum="4b1ed1d87a6dfeb9c2df5573be652819" name="Doctrine/ORM/Persisters/ElementCollectionPersister.php" role="php" />
+   <file baseinstalldir="/" md5sum="b6ba30683595d4283d7437952054ac47" name="Doctrine/ORM/Persisters/JoinedSubclassPersister.php" role="php" />
+   <file baseinstalldir="/" md5sum="924af915b310317e0c82fc6c4338ca4d" name="Doctrine/ORM/Persisters/ManyToManyPersister.php" role="php" />
+   <file baseinstalldir="/" md5sum="2fd81984d8bf44773f496ee2578c5585" name="Doctrine/ORM/Persisters/OneToManyPersister.php" role="php" />
+   <file baseinstalldir="/" md5sum="95fe6cd5c5db82422423e929c5e7e176" name="Doctrine/ORM/Persisters/SingleTablePersister.php" role="php" />
+   <file baseinstalldir="/" md5sum="c9c53aa3a614223e168ed18244cf36f9" name="Doctrine/ORM/Persisters/SqlExpressionVisitor.php" role="php" />
+   <file baseinstalldir="/" md5sum="67ebd36ad838aa32c2f56ab38b41a92a" name="Doctrine/ORM/Persisters/SqlValueVisitor.php" role="php" />
+   <file baseinstalldir="/" md5sum="a99f2afc42af30a87892600ed6e634db" name="Doctrine/ORM/Persisters/UnionSubclassPersister.php" role="php" />
+   <file baseinstalldir="/" md5sum="faacdf0a686dbff6909667335c3263c1" name="Doctrine/ORM/Proxy/Autoloader.php" role="php" />
+   <file baseinstalldir="/" md5sum="b3a5403a42efd37d2a6dde704e49ff6a" name="Doctrine/ORM/Proxy/Proxy.php" role="php" />
+   <file baseinstalldir="/" md5sum="78d7db4cccbc4daa3df6da19fcf0261a" name="Doctrine/ORM/Proxy/ProxyException.php" role="php" />
+   <file baseinstalldir="/" md5sum="fd75892583fa4e010e99b04a0f4fe661" name="Doctrine/ORM/Proxy/ProxyFactory.php" role="php" />
+   <file baseinstalldir="/" md5sum="039f15a9107e8e4bf386147b62d633c8" name="Doctrine/ORM/Query/Expr.php" role="php" />
+   <file baseinstalldir="/" md5sum="a9250f4787cb6ddf1413c70cffc82978" name="Doctrine/ORM/Query/FilterCollection.php" role="php" />
+   <file baseinstalldir="/" md5sum="5a039425d00ce66b491b67c1971700cf" name="Doctrine/ORM/Query/Lexer.php" role="php" />
+   <file baseinstalldir="/" md5sum="421dd81812e1408ffc1a8a5eeeeb1c5f" name="Doctrine/ORM/Query/Parameter.php" role="php" />
+   <file baseinstalldir="/" md5sum="e0056eb150899c62b031ef31d783ea2f" name="Doctrine/ORM/Query/ParameterTypeInferer.php" role="php" />
+   <file baseinstalldir="/" md5sum="fffdb96bfa0248a7eacee11338f11847" name="Doctrine/ORM/Query/Parser.php" role="php" />
+   <file baseinstalldir="/" md5sum="93cc031dea3e284f5018fc911ee2dc31" name="Doctrine/ORM/Query/ParserResult.php" role="php" />
+   <file baseinstalldir="/" md5sum="d363a80db25592ddfbeac0325d2d51f2" name="Doctrine/ORM/Query/Printer.php" role="php" />
+   <file baseinstalldir="/" md5sum="cec80ba57fb79f85f60060724382992d" name="Doctrine/ORM/Query/QueryException.php" role="php" />
+   <file baseinstalldir="/" md5sum="b7f345cab2b41d903e3522bd06eabb58" name="Doctrine/ORM/Query/ResultSetMapping.php" role="php" />
+   <file baseinstalldir="/" md5sum="8736880cc00ef776a983ec3a6191f741" name="Doctrine/ORM/Query/ResultSetMappingBuilder.php" role="php" />
+   <file baseinstalldir="/" md5sum="ee8230a8d9da20bb7b903d995569a991" name="Doctrine/ORM/Query/SqlWalker.php" role="php" />
+   <file baseinstalldir="/" md5sum="c9fd2dda7a4fa2c0667fac319307bf5b" name="Doctrine/ORM/Query/TreeWalker.php" role="php" />
+   <file baseinstalldir="/" md5sum="dccb991d5127852e809140d4e0952cbd" name="Doctrine/ORM/Query/TreeWalkerAdapter.php" role="php" />
+   <file baseinstalldir="/" md5sum="305f89f5273d44198874e4de2f5d13b1" name="Doctrine/ORM/Query/TreeWalkerChain.php" role="php" />
+   <file baseinstalldir="/" md5sum="399d4e139d650540d1d4e7dc6e81b9b0" name="Doctrine/ORM/Query/AST/AggregateExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="42c42b33f6382025661bbd2a2f91ccbd" name="Doctrine/ORM/Query/AST/ArithmeticExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="0c7c4235b47809645161b62758dd60d7" name="Doctrine/ORM/Query/AST/ArithmeticFactor.php" role="php" />
+   <file baseinstalldir="/" md5sum="c5a4adde65a24a0b49e45dc67c5fb636" name="Doctrine/ORM/Query/AST/ArithmeticTerm.php" role="php" />
+   <file baseinstalldir="/" md5sum="f8f29dcb200a012fd09dfbea9c88e45f" name="Doctrine/ORM/Query/AST/ASTException.php" role="php" />
+   <file baseinstalldir="/" md5sum="591828b6280312d943b02f2f7bfab1cc" name="Doctrine/ORM/Query/AST/BetweenExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="3c0c9366f2b7d052fe5bb0a34ac51695" name="Doctrine/ORM/Query/AST/CoalesceExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="50432bac40c803cdfaeb27ade2ef16dc" name="Doctrine/ORM/Query/AST/CollectionMemberExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="d0010455e533f0933fb176bbb6a25e8c" name="Doctrine/ORM/Query/AST/ComparisonExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="ccc02e10e585adea1cb66c4039d70776" name="Doctrine/ORM/Query/AST/ConditionalExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="8c0ee162a2c74f567ed590b6da46f833" name="Doctrine/ORM/Query/AST/ConditionalFactor.php" role="php" />
+   <file baseinstalldir="/" md5sum="573d3e4f93377264bb182fa06939308b" name="Doctrine/ORM/Query/AST/ConditionalPrimary.php" role="php" />
+   <file baseinstalldir="/" md5sum="5757e888891f012052e9dfc68ed82d30" name="Doctrine/ORM/Query/AST/ConditionalTerm.php" role="php" />
+   <file baseinstalldir="/" md5sum="88b64736c26943fe486b46da8ea6a184" name="Doctrine/ORM/Query/AST/DeleteClause.php" role="php" />
+   <file baseinstalldir="/" md5sum="12306d7f24dff65e1c188fd490b01e2a" name="Doctrine/ORM/Query/AST/DeleteStatement.php" role="php" />
+   <file baseinstalldir="/" md5sum="4e8baef804a1d0344d6f99b918188130" name="Doctrine/ORM/Query/AST/EmptyCollectionComparisonExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="535617823580cb94df45b6ef80595fd5" name="Doctrine/ORM/Query/AST/ExistsExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="d104e7db8dc1471e8cd974cb878aa047" name="Doctrine/ORM/Query/AST/FromClause.php" role="php" />
+   <file baseinstalldir="/" md5sum="2109824269aa83421bc40f9d8f12e923" name="Doctrine/ORM/Query/AST/GeneralCaseExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="8478f1d3240941332d3f7b36cb14df35" name="Doctrine/ORM/Query/AST/GroupByClause.php" role="php" />
+   <file baseinstalldir="/" md5sum="502a06b1a71be31f4b0fe4c613a1bfef" name="Doctrine/ORM/Query/AST/HavingClause.php" role="php" />
+   <file baseinstalldir="/" md5sum="8df490d1eea063b1b16654a6910104fd" name="Doctrine/ORM/Query/AST/IdentificationVariableDeclaration.php" role="php" />
+   <file baseinstalldir="/" md5sum="ab49cfb8101b70bf6966e940a17974f5" name="Doctrine/ORM/Query/AST/IndexBy.php" role="php" />
+   <file baseinstalldir="/" md5sum="18cef658aaf2e549abb242a3e5517e2c" name="Doctrine/ORM/Query/AST/InExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="c9c12001981b4ccbcea2e681a09b053f" name="Doctrine/ORM/Query/AST/InputParameter.php" role="php" />
+   <file baseinstalldir="/" md5sum="062e42ef27aefd7e08224eb94af72659" name="Doctrine/ORM/Query/AST/InstanceOfExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="242301f9764186bcde270d5588261ae5" name="Doctrine/ORM/Query/AST/Join.php" role="php" />
+   <file baseinstalldir="/" md5sum="395924a9e15649cce7337161ee52429c" name="Doctrine/ORM/Query/AST/JoinAssociationDeclaration.php" role="php" />
+   <file baseinstalldir="/" md5sum="8324c266e2f06efc6f5122a2386bde05" name="Doctrine/ORM/Query/AST/JoinAssociationPathExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="4b780c2f8717704b63c6f3ccde07c8ff" name="Doctrine/ORM/Query/AST/JoinClassPathExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="f29d42451c32a3d0ca849fad2e29619d" name="Doctrine/ORM/Query/AST/LikeExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="fabbc866840993c57e0f3816d3d38ad1" name="Doctrine/ORM/Query/AST/Literal.php" role="php" />
+   <file baseinstalldir="/" md5sum="f85f0b96225a13df03769b5648376d52" name="Doctrine/ORM/Query/AST/Node.php" role="php" />
+   <file baseinstalldir="/" md5sum="4e75b4924e3cb793e02a0f8c09c6bf6d" name="Doctrine/ORM/Query/AST/NullComparisonExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="68bb67442e69cb74e30afb6b8b85f706" name="Doctrine/ORM/Query/AST/NullIfExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="d276ff57553fe317970b0958ca55e5a4" name="Doctrine/ORM/Query/AST/OrderByClause.php" role="php" />
+   <file baseinstalldir="/" md5sum="05537028dd4d8a9dcba94534dcfff671" name="Doctrine/ORM/Query/AST/OrderByItem.php" role="php" />
+   <file baseinstalldir="/" md5sum="69a879312edeece8b4f89861f4d4f756" name="Doctrine/ORM/Query/AST/PartialObjectExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="31356d54c53eb62ca5238cb860f2ae26" name="Doctrine/ORM/Query/AST/PathExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="6f3434b926b6d194bf428bea53eba174" name="Doctrine/ORM/Query/AST/QuantifiedExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="be73e228aa5291da63eaf897a90111eb" name="Doctrine/ORM/Query/AST/RangeVariableDeclaration.php" role="php" />
+   <file baseinstalldir="/" md5sum="e0c6dfba4ec86e9c7858b951ac86a0fe" name="Doctrine/ORM/Query/AST/SelectClause.php" role="php" />
+   <file baseinstalldir="/" md5sum="e0bbf5587e716d9289bb1046ffa0ffb8" name="Doctrine/ORM/Query/AST/SelectExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="4c07dcf148d903ed90edd916aae0e984" name="Doctrine/ORM/Query/AST/SelectStatement.php" role="php" />
+   <file baseinstalldir="/" md5sum="e6bd9178e19926c6f4dec69f14cf88e8" name="Doctrine/ORM/Query/AST/SimpleArithmeticExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="6e732eb6813e45bc56cf2c5cea87c268" name="Doctrine/ORM/Query/AST/SimpleCaseExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="92b2c89fbf7b72ab82881bdc1ff0e69c" name="Doctrine/ORM/Query/AST/SimpleSelectClause.php" role="php" />
+   <file baseinstalldir="/" md5sum="1e1e0972aa934575decd1a483a0b4a85" name="Doctrine/ORM/Query/AST/SimpleSelectExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="5359e3658d2e189962c8f4b5d041b651" name="Doctrine/ORM/Query/AST/SimpleWhenClause.php" role="php" />
+   <file baseinstalldir="/" md5sum="39d173b753c4b78e9db2c50b7a7c9e9c" name="Doctrine/ORM/Query/AST/Subselect.php" role="php" />
+   <file baseinstalldir="/" md5sum="ff0a0fbe3bbdf8f02473c5daaf09cc87" name="Doctrine/ORM/Query/AST/SubselectFromClause.php" role="php" />
+   <file baseinstalldir="/" md5sum="e8c5db151b7794b8c81ededb97ba377c" name="Doctrine/ORM/Query/AST/UpdateClause.php" role="php" />
+   <file baseinstalldir="/" md5sum="a7009fd05f4ff2f0ee9bdc0d1c5e7467" name="Doctrine/ORM/Query/AST/UpdateItem.php" role="php" />
+   <file baseinstalldir="/" md5sum="41c2128c0c4f1749aa6f15db60f19bcc" name="Doctrine/ORM/Query/AST/UpdateStatement.php" role="php" />
+   <file baseinstalldir="/" md5sum="940ba1a3e8dd8b6d5ae6181d30c80cd8" name="Doctrine/ORM/Query/AST/WhenClause.php" role="php" />
+   <file baseinstalldir="/" md5sum="c0bb56bb63435c547cc396c8d555b270" name="Doctrine/ORM/Query/AST/WhereClause.php" role="php" />
+   <file baseinstalldir="/" md5sum="30685fe75ba17be0c2e94059c8b1deb2" name="Doctrine/ORM/Query/AST/Functions/AbsFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="4fcfadbf46adf6eb5eb79b7c757d28d0" name="Doctrine/ORM/Query/AST/Functions/BitAndFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="dc123c70915d0629374a9e6fff4b72a2" name="Doctrine/ORM/Query/AST/Functions/BitOrFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="2ce73fca74bdeeb34da0a04ac91b9d56" name="Doctrine/ORM/Query/AST/Functions/ConcatFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="472695dfca5bc2565ddb89796ad90177" name="Doctrine/ORM/Query/AST/Functions/CurrentDateFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="308badc2a4b15cd25b6e145c84a34461" name="Doctrine/ORM/Query/AST/Functions/CurrentTimeFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="d5a492c9ba3e8acf64e7b83fa608cc3f" name="Doctrine/ORM/Query/AST/Functions/CurrentTimestampFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="298624a0c59a2b71583b13554a31ef7a" name="Doctrine/ORM/Query/AST/Functions/DateAddFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="5c890e1612e960f53816636666a9a786" name="Doctrine/ORM/Query/AST/Functions/DateDiffFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="1103c28adf1f4df848add1a7b1e81f6d" name="Doctrine/ORM/Query/AST/Functions/DateSubFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="93ab062d1e563006c503020dd9881b04" name="Doctrine/ORM/Query/AST/Functions/FunctionNode.php" role="php" />
+   <file baseinstalldir="/" md5sum="7382023f0b15a03c0e9051774b6b8e0e" name="Doctrine/ORM/Query/AST/Functions/IdentityFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="f32dfd9f372e5bdeb375271890adb18d" name="Doctrine/ORM/Query/AST/Functions/LengthFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="586aced1d28d871f62d08a50aa3ee59b" name="Doctrine/ORM/Query/AST/Functions/LocateFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="7773a234f71266cf90e9a8197485679c" name="Doctrine/ORM/Query/AST/Functions/LowerFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="aae67b8a5e08be3213dc04e8ab36fa34" name="Doctrine/ORM/Query/AST/Functions/ModFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="2b560b03f43181b35008351f9dfa8265" name="Doctrine/ORM/Query/AST/Functions/SizeFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="26844e9e15836c4f607d30f679eb590e" name="Doctrine/ORM/Query/AST/Functions/SqrtFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="ed4eb56233be9fd76b1fbd3b4ce85dd5" name="Doctrine/ORM/Query/AST/Functions/SubstringFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="0eec87daba73b654c6b4a42dd91ae1af" name="Doctrine/ORM/Query/AST/Functions/TrimFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="4edb869bfd0120664dcc61464ce3a7d0" name="Doctrine/ORM/Query/AST/Functions/UpperFunction.php" role="php" />
+   <file baseinstalldir="/" md5sum="669f3a310dda72755e6239e4af6920fd" name="Doctrine/ORM/Query/Exec/AbstractSqlExecutor.php" role="php" />
+   <file baseinstalldir="/" md5sum="cd5857d657593ec595ab93370c44441a" name="Doctrine/ORM/Query/Exec/MultiTableDeleteExecutor.php" role="php" />
+   <file baseinstalldir="/" md5sum="4fb0f06e8abaca448344053b8d47ba9c" name="Doctrine/ORM/Query/Exec/MultiTableUpdateExecutor.php" role="php" />
+   <file baseinstalldir="/" md5sum="962b6b68382e90ea09f911376e6d62c1" name="Doctrine/ORM/Query/Exec/SingleSelectExecutor.php" role="php" />
+   <file baseinstalldir="/" md5sum="d38b8188282d2bc4cc55842a72356479" name="Doctrine/ORM/Query/Exec/SingleTableDeleteUpdateExecutor.php" role="php" />
+   <file baseinstalldir="/" md5sum="e525085f378bf9a6112856af90ff3c21" name="Doctrine/ORM/Query/Expr/Andx.php" role="php" />
+   <file baseinstalldir="/" md5sum="ed940502607bf337b3cadefaad3f09eb" name="Doctrine/ORM/Query/Expr/Base.php" role="php" />
+   <file baseinstalldir="/" md5sum="d89f237cb93d2fb6378dec3da050305a" name="Doctrine/ORM/Query/Expr/Comparison.php" role="php" />
+   <file baseinstalldir="/" md5sum="9041d767e85b192dc218917e350202b5" name="Doctrine/ORM/Query/Expr/Composite.php" role="php" />
+   <file baseinstalldir="/" md5sum="39c1bb9f74a142feb785349b45bc9fcf" name="Doctrine/ORM/Query/Expr/From.php" role="php" />
+   <file baseinstalldir="/" md5sum="6670d25e85b312419ef5cdbeaf06d3b7" name="Doctrine/ORM/Query/Expr/Func.php" role="php" />
+   <file baseinstalldir="/" md5sum="7e0ef624921484ab62782e9dbf412140" name="Doctrine/ORM/Query/Expr/GroupBy.php" role="php" />
+   <file baseinstalldir="/" md5sum="ad75e3252b384165ef4d187b2db5e525" name="Doctrine/ORM/Query/Expr/Join.php" role="php" />
+   <file baseinstalldir="/" md5sum="e870ae53098d51101463ad94d72439b5" name="Doctrine/ORM/Query/Expr/Literal.php" role="php" />
+   <file baseinstalldir="/" md5sum="f3c0031282e40614b461f94de26eef5b" name="Doctrine/ORM/Query/Expr/Math.php" role="php" />
+   <file baseinstalldir="/" md5sum="4e83632f97addcc03b591376553fa3d7" name="Doctrine/ORM/Query/Expr/OrderBy.php" role="php" />
+   <file baseinstalldir="/" md5sum="dc9c83130f1c27e6f6b8f9502ceee302" name="Doctrine/ORM/Query/Expr/Orx.php" role="php" />
+   <file baseinstalldir="/" md5sum="15b1c1eda3cd075706dc291356dd0f35" name="Doctrine/ORM/Query/Expr/Select.php" role="php" />
+   <file baseinstalldir="/" md5sum="fec8d294e9bb5691115fa0d57cba1bcf" name="Doctrine/ORM/Query/Filter/SQLFilter.php" role="php" />
+   <file baseinstalldir="/" md5sum="bf3990845245de5d03ee0d93a5082727" name="Doctrine/ORM/Tools/ConvertDoctrine1Schema.php" role="php" />
+   <file baseinstalldir="/" md5sum="011c6646290d13bcbbd49cfb3e2b7a0b" name="Doctrine/ORM/Tools/DebugUnitOfWorkListener.php" role="php" />
+   <file baseinstalldir="/" md5sum="3d218f41fcda74f48434efbab524e391" name="Doctrine/ORM/Tools/DisconnectedClassMetadataFactory.php" role="php" />
+   <file baseinstalldir="/" md5sum="2f0ab191a6c32a503f5990837276d3b0" name="Doctrine/ORM/Tools/EntityGenerator.php" role="php" />
+   <file baseinstalldir="/" md5sum="686bacf24add6edcebdccfae9556d9ea" name="Doctrine/ORM/Tools/EntityRepositoryGenerator.php" role="php" />
+   <file baseinstalldir="/" md5sum="a3671330008b59775034e757bb3b8c8d" name="Doctrine/ORM/Tools/ResolveTargetEntityListener.php" role="php" />
+   <file baseinstalldir="/" md5sum="c6e8461738b04c301da789dc942f047e" name="Doctrine/ORM/Tools/SchemaTool.php" role="php" />
+   <file baseinstalldir="/" md5sum="2223d3d508b48d8b13b5d32fa1bfd9d9" name="Doctrine/ORM/Tools/SchemaValidator.php" role="php" />
+   <file baseinstalldir="/" md5sum="0bd5634f529ef47a7da1f0010cbd0ea4" name="Doctrine/ORM/Tools/Setup.php" role="php" />
+   <file baseinstalldir="/" md5sum="bfb9f7068326307e847d5e9d32dbf8f5" name="Doctrine/ORM/Tools/ToolEvents.php" role="php" />
+   <file baseinstalldir="/" md5sum="317fd5dbf629f57d0425e8b0277d40ae" name="Doctrine/ORM/Tools/ToolsException.php" role="php" />
+   <file baseinstalldir="/" md5sum="6ca5e2ac74149f8d4e00d4bfdb26b5ba" name="Doctrine/ORM/Tools/Console/ConsoleRunner.php" role="php" />
+   <file baseinstalldir="/" md5sum="b5b73914dfeac116286fb4c278c98452" name="Doctrine/ORM/Tools/Console/MetadataFilter.php" role="php" />
+   <file baseinstalldir="/" md5sum="8c4ef5fb10922ee1f4524dc87d4d7d38" name="Doctrine/ORM/Tools/Console/Command/ConvertDoctrine1SchemaCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="009ed45335cd5d7c4e8921b606978d14" name="Doctrine/ORM/Tools/Console/Command/ConvertMappingCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="0852201ffe75db89aa7c270cba8f741a" name="Doctrine/ORM/Tools/Console/Command/EnsureProductionSettingsCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="e2160d1f26eed9aec7d47feae8e03dcc" name="Doctrine/ORM/Tools/Console/Command/GenerateEntitiesCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="b0c0f0d5bdd4d08475701dd02cacdd78" name="Doctrine/ORM/Tools/Console/Command/GenerateProxiesCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="baf7ade029d814d563fc8b594c577316" name="Doctrine/ORM/Tools/Console/Command/GenerateRepositoriesCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="0b51eecf9f93f5f2e4250c6f4b064c63" name="Doctrine/ORM/Tools/Console/Command/InfoCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="585fe700cb220750d3932983a4d2ac8a" name="Doctrine/ORM/Tools/Console/Command/RunDqlCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="02010708d243bc881e0eac25b3fb9c9b" name="Doctrine/ORM/Tools/Console/Command/ValidateSchemaCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="fa834bd96f507f6b2e842aaa97c947c3" name="Doctrine/ORM/Tools/Console/Command/ClearCache/MetadataCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="c864cc8e2d4cf7e0dd266d9cc0ab4c4a" name="Doctrine/ORM/Tools/Console/Command/ClearCache/QueryCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="2a0784d05b05e3898f67fc407677ab46" name="Doctrine/ORM/Tools/Console/Command/ClearCache/ResultCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="8bc68ba563af6f5b041159081cb354da" name="Doctrine/ORM/Tools/Console/Command/SchemaTool/AbstractCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="b5691c5ef3a9b2d2490ce861e8b3df84" name="Doctrine/ORM/Tools/Console/Command/SchemaTool/CreateCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="ec1fa142910fd89e8b679f87f21eafbd" name="Doctrine/ORM/Tools/Console/Command/SchemaTool/DropCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="3d0e9a005bc0972d628dbdbc4ed1b5a7" name="Doctrine/ORM/Tools/Console/Command/SchemaTool/UpdateCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="9f9110aef2bc6974138807ab7e2f907f" name="Doctrine/ORM/Tools/Console/Helper/EntityManagerHelper.php" role="php" />
+   <file baseinstalldir="/" md5sum="c110c5df93ec2df0c0f4812eaf6a94a3" name="Doctrine/ORM/Tools/Event/GenerateSchemaEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="f9ab01af2c952bcb2d144366eb88815a" name="Doctrine/ORM/Tools/Event/GenerateSchemaTableEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="6daf0d08bb16aab078f800ffad561eaf" name="Doctrine/ORM/Tools/Export/ClassMetadataExporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="8c757fcdaa4eeb3a67e1344f4638f969" name="Doctrine/ORM/Tools/Export/ExportException.php" role="php" />
+   <file baseinstalldir="/" md5sum="0c96103b6fdabdefc752faa6edf18ccc" name="Doctrine/ORM/Tools/Export/Driver/AbstractExporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="89c8420ea8e566daf69cbcb1c2308aae" name="Doctrine/ORM/Tools/Export/Driver/AnnotationExporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="c42f95db239de4d5d37b3c6338be4554" name="Doctrine/ORM/Tools/Export/Driver/PhpExporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="9d9e599277ed98f3ad86024fd14e8ef3" name="Doctrine/ORM/Tools/Export/Driver/XmlExporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="1573ac9dc595a29fe4da96f168d14be1" name="Doctrine/ORM/Tools/Export/Driver/YamlExporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="ad55f79807f7186529f72f6c1869c4ff" name="Doctrine/ORM/Tools/Pagination/CountOutputWalker.php" role="php" />
+   <file baseinstalldir="/" md5sum="a48579972c4b30685d976d08df957853" name="Doctrine/ORM/Tools/Pagination/CountWalker.php" role="php" />
+   <file baseinstalldir="/" md5sum="715ed2b14d3eb9a70fa9ec5a50a81196" name="Doctrine/ORM/Tools/Pagination/LimitSubqueryOutputWalker.php" role="php" />
+   <file baseinstalldir="/" md5sum="e905495fdf811f380d80fbbcab0871c0" name="Doctrine/ORM/Tools/Pagination/LimitSubqueryWalker.php" role="php" />
+   <file baseinstalldir="/" md5sum="6a60deca35277654fab11472beeb9b4d" name="Doctrine/ORM/Tools/Pagination/Paginator.php" role="php" />
+   <file baseinstalldir="/" md5sum="ec4f2e4d5ea06644f5285e264d4402e2" name="Doctrine/ORM/Tools/Pagination/WhereInWalker.php" role="php" />
+   <file baseinstalldir="/" md5sum="789a35b35cc7125c6ad3ba0e4ba53144" name="doctrine-mapping.xsd" role="data" />
+   <file baseinstalldir="/" md5sum="c781539da0fb35b5c5ad0fb72172ded6" name="LICENSE" role="data" />
+   <file baseinstalldir="/" md5sum="4d9b7ea0e0b40024d133759584dabb9e" name="UPGRADE.md" role="data" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.6.0</min>
+    <recommended>1.6.1</recommended>
+   </pearinstaller>
+   <package>
+    <name>DoctrineCommon</name>
+    <channel>pear.doctrine-project.org</channel>
+    <min>2.2.0beta1</min>
+   </package>
+   <package>
+    <name>DoctrineDBAL</name>
+    <channel>pear.doctrine-project.org</channel>
+    <min>2.2.0beta1</min>
+   </package>
+   <package>
+    <name>Console</name>
+    <channel>pear.symfony.com</channel>
+    <min>2.0.0</min>
+   </package>
+   <package>
+    <name>Yaml</name>
+    <channel>pear.symfony.com</channel>
+    <min>2.0.0</min>
+   </package>
+  </required>
+ </dependencies>
+ <phprelease>
+  <filelist>
+   <install as="doctrine" name="bin/doctrine" />
+   <install as="doctrine.php" name="bin/doctrine-pear.php" />
+   <install as="doctrine.bat" name="bin/doctrine.bat" />
+  </filelist>
+ </phprelease>
+ <changelog>
+  <release>
+   <version>
+    <release>2.3.2</release>
+    <api>2.3.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2013-01-07</date>
+   <license uri="http://www.gnu.org/licenses/lgpl.html">LGPL</license>
+   <notes>
+-
+   </notes>
+  </release>
+ </changelog>
+</package>

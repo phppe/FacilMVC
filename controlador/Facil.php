@@ -160,7 +160,7 @@ class Facil {
         ob_end_clean();
 
         $saida = self::resolverLinksDoControle($saida);
-        $saida = self::resolverReferenciasARecursos($saida);
+        $saida = self::resolverReferenciasARecursos($saida, $_view);
         $saida = self::internacionalizar($saida);
 
         if ($retornar) {
@@ -329,7 +329,7 @@ class Facil {
                 $nome = explode(".", $arq->getFilename());
                 $modulos[] = $nome[0];
                 // Varrer módulos de subdiretórios
-            } elseif ($arq->isDir()) {
+            } elseif ($arq->isDir() && !$arq->isDot()) {
                 foreach ($arq as $sub) {
                     if (!$sub->isDot()) {
                         $nome = explode(".", $sub->getFilename());
@@ -355,15 +355,26 @@ class Facil {
         return $saida;
     }
 
-    public static function resolverReferenciasARecursos($saida) {
+    public static function resolverReferenciasARecursos($saida, $_view) {
         $ret = preg_match_all('@((href\s*=\s*)|(action\s*=\s*)|(src\s*=\s*)|(url\s*\(\s*))([\'"]?)' . // abertura da instrução
-                '((img/)|(css/)|(js/)|(recursos/))(.*?)([/ \'">])@iu', // seguida pelo conteúdo do recurso 
+                '(\.\./)*((img/)|(css/)|(js/)|(recursos/))(.*?)([/ \'">])@iu', // seguida pelo conteúdo do recurso 
                 $saida, $ocorrencias, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
-        $adendo = BASE_DINAMICA . '/visao/' . self::getTemplate() . '/';
+        
+        // Caso a $_view já esteja abaixo de uma pasta, vamos respeitar esse caminho
+        $subpath = "/";
+        if (strrpos($_view, "/") !== false) {
+            $subpath = substr($_view, 0, strrpos($_view, "/")+1);
+        }
+        
+        $adendo = BASE . '/visao/' . self::getTemplate() . $subpath;
         $desvio = 0;
         foreach ($ocorrencias as $ocorrencia) {
-            $match = $ocorrencia[7][0];
-            $posicao = $ocorrencia[7][1];
+            $match = $ocorrencia[8][0];
+            $posicao = $ocorrencia[8][1];
+            if (!empty($ocorrencia[7][0])) {
+                $match = $ocorrencia[7][0] . $match;
+                $posicao = $ocorrencia[7][1];
+            }
             $valor = $adendo . $match;
             $saida = substr_replace($saida, $valor, $posicao + $desvio, strlen($match));
             $desvio += strlen($valor) - strlen($match);
@@ -378,7 +389,7 @@ class Facil {
         // Ao final imprimir o tempo de execução
         // De acordo com o especificado no ini
         if (self::$dadosIni["saida"]["tempo"] == true) {
-            echo " Tempo: " . (microtime(true) - INICIO) . "ms \n";
+            echo " Tempo: " . ((microtime(true) - INICIO) * 1000) . "ms \n";
         }
         if (self::$dadosIni["saida"]["uso_de_memoria"] == true) {
             $memoria = memory_get_usage(true);

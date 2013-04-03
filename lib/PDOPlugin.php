@@ -48,25 +48,47 @@ class PDOPlugin implements IPlugin {
         // Se houver uma posição absoluta chamada banco no 
         // arquivo de configuração, só vamos conectar uma vez
         if (isset($dados['banco'])) {
-            $this->pdo = new \PDO(sprintf('%s:host=%s;dbname=%s;port=%04d',
+            $this->pdo = new \PDO(sprintf('%s:host=%s;dbname=%s;port=%04d;charset=%s',
                                 $dados['banco']['sgbd'],
                                 $dados['banco']['host'],
                                 $dados['banco']['database'],
-                                $dados['banco']['porta']),
+                                $dados['banco']['porta'],
+                                $dados['l10n']['charset']),
                                 $dados['banco']['usuario'], $dados['banco']['senha']);
-            $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->configurarObj($this->pdo);
         } else {
             $this->pdo = array();
             for ($x = 0; isset($dados['banco_' . $x]); $x++) {
-                $this->pdo[$x] = new \PDO(sprintf('%s:host=%s;dbname=%s;port=%04d',
+                $this->pdo[$x] = new \PDO(sprintf('%s:host=%s;dbname=%s;port=%04d;charset=%s',
                                         $dados["banco_$x"]['sgbd'],
                                         $dados["banco_$x"]['host'],
                                         $dados["banco_$x"]['database'],
-                                        $dados["banco_$x"]['porta']),
+                                        $dados["banco_$x"]['porta'],
+                                        $dados['l10n']['charset']),
                                         $dados["banco_$x"]['usuario'], $dados["banco_$x"]['senha']);
-                $this->pdo[$x]->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+                $this->configurarObj($this->pdo[$x]);
             }
         }
+    }
+    
+    public function configurarObj($obj) {
+        $dados = \controlador\Facil::$dadosIni['pdo'];
+        $obj->setAttribute(\PDO::ATTR_ERRMODE, constant('\PDO::' . $dados['ATTR_ERRMODE']));
+        $obj->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, constant('\PDO::' . $dados['ATTR_DEFAULT_FETCH_MODE']));
+        $obj->setAttribute(\PDO::ATTR_CASE, constant('\PDO::' . $dados['ATTR_CASE']));
+        $obj->setAttribute(\PDO::ATTR_ORACLE_NULLS, constant('\PDO::' . $dados['ATTR_ORACLE_NULLS']));
+        $obj->setAttribute(\PDO::ATTR_STRINGIFY_FETCHES, $dados['ATTR_STRINGIFY_FETCHES']);
+        
+        if (!empty($dados['ATTR_STATEMENT_CLASS'])) 
+            $obj->setAttribute(\PDO::ATTR_STATEMENT_CLASS, $dados['ATTR_STATEMENT_CLASS']);
+        if (!empty($dados['ATTR_TIMEOUT'])) 
+            $obj->setAttribute(\PDO::ATTR_TIMEOUT, $dados['ATTR_TIMEOUT']);
+        if (!empty($dados['ATTR_AUTOCOMMIT'])) 
+            $obj->setAttribute(\PDO::ATTR_AUTOCOMMIT, $dados['ATTR_AUTOCOMMIT']);
+        if (!empty($dados['ATTR_EMULATE_PREPARES'])) 
+            $obj->setAttribute(\PDO::ATTR_EMULATE_PREPARES, $dados['ATTR_EMULATE_PREPARES']);
+        if (!empty($dados['MYSQL_ATTR_USE_BUFFERED_QUERY'])) 
+            $obj->setAttribute(\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $dados['MYSQL_ATTR_USE_BUFFERED_QUERY']);
     }
     
     /**
