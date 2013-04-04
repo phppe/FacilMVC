@@ -464,6 +464,9 @@ class Facil {
         if (!empty($url)) {
             // Captura dos dados passados na URL
             self::$dadosUrl = explode("/", $url);
+            foreach (self::$dadosUrl as &$dados) {
+                $dados = str_replace("-", "_", $dados);
+            }
 
             // Se for possível sugerir o ambiente
             // e houver arquivo de configuração para o ambiente sugerido
