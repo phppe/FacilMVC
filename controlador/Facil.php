@@ -363,7 +363,7 @@ class Facil {
         // Caso a $_view já esteja abaixo de uma pasta, vamos respeitar esse caminho
         $subpath = "/";
         if (strrpos($_view, "/") !== false) {
-            $subpath = substr($_view, 0, strrpos($_view, "/")+1);
+            $subpath .= substr($_view, 0, strrpos($_view, "/")+1);
         }
         
         $adendo = BASE . '/visao/' . self::getTemplate() . $subpath;
