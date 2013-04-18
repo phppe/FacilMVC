@@ -328,12 +328,21 @@ class Facil {
                     $arq->getFilename() != "ControleException.php") {
                 $nome = explode(".", $arq->getFilename());
                 $modulos[] = $nome[0];
+                // Adicionando links com hifens quando encontrar underscores
+                if (strpos($nome[0], '_') !== false) {
+                    $modulos[] = str_replace('_', '-', $nome[0]);
+                }
                 // Varrer módulos de subdiretórios
             } elseif ($arq->isDir() && !$arq->isDot()) {
-                foreach ($arq as $sub) {
-                    if (!$sub->isDot()) {
+                $arqDir = new \DirectoryIterator($arq->getPathname());
+                foreach ($arqDir as $sub) {
+                    if ($sub->isFile()) {
                         $nome = explode(".", $sub->getFilename());
                         $modulos[] = $arq->getFilename() . "/" . $nome[0];
+                        // Adicionando links com hifens quando encontrar underscores
+                        if (strpos($arq->getFilename() . "/" . $nome[0], '_') !== false) {
+                            $modulos[] = str_replace('_', '-', $arq->getFilename() . "/" . $nome[0]);
+                        }
                     }
                 }
             }
@@ -347,6 +356,10 @@ class Facil {
         foreach ($classe->getMethods() as $metodo) {
             if ($metodo->isPublic() && strpos($metodo->getName(), "__") !== 0) {
                 $metodos[] = strtolower($metodo->getName());
+                // Adicionando links com hifens quando encontrar underscores
+                if (strpos($metodo->getName(), '_') !== false) {
+                    $modulos[] = str_replace('_', '-', $metodo->getName());
+                }
             }
         }
         $substituicoes = array_merge($modulos, $metodos);

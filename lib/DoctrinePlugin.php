@@ -3,12 +3,16 @@ namespace lib;
 
 use Doctrine\Common\ClassLoader,
     Doctrine\ORM\Configuration,
-    Doctrine\ORM\EntityManager;
+    Doctrine\ORM\EntityManager,
+    \Doctrine\ORM\Tools\SchemaValidator,
+    \Doctrine\ORM\Tools\SchemaTool;
 
 
 
 /**
- * Classe plugin para carregar o Doctrine
+ * Classe plugin para carregar o Doctrine.
+ * Age também como uma Fachada para operações do Doctrine
+ * como a geração e verificação do esquema no banco
  */
 class DoctrinePlugin implements IPlugin {
     
@@ -116,7 +120,69 @@ class DoctrinePlugin implements IPlugin {
         $this->obterConexao();
 
         // Create EntityManager
-        $this->em = EntityManager::create($this->connection, $this->config);        
+        $this->em = EntityManager::create($this->connection, $this->config);
+        if (\controlador\Facil::$dadosIni['l10n']['charset'] == 'UTF-8') {
+            $this->em->getEventManager()->addEventSubscriber(
+                    new \Doctrine\DBAL\Event\Listeners\MysqlSessionInit('utf8', 'utf8_unicode_ci')
+            );
+        }
+    }
+    
+    /**
+     * Método que valida se os mapeamentos estão coerentes
+     * com a relação Classes x Tabelas por todo o esquema
+     * @return boolean
+     */
+    public function validarEsquema() {
+        $sv = new SchemaValidator($this->em);
+        return $sv->validateMapping();
+    }
+    /**
+     * Método que valida se o mapeamento de uma classe específica
+     * está coerente com a sua tabela correspondente
+     * @param string $nome FQCN da classe
+     * @return boolean
+     */
+    public function validarClasse($nome) {
+        $sv = new SchemaValidator($this->em);
+        return $sv->validateClass($this->em->getClassMetadata($nome));
+    }
+    
+    /**
+     * Método que gera o esquema no banco a partir da lista de classes
+     * @param string[] $classes FQN das classes
+     */
+    public function gerarEsquema($classes) {
+        $st = $this->getSchemaTool();
+        $metas = $this->montarMetadatas($classes);
+        $st->createSchema($metas);
+    }
+    
+    /**
+     * Método que detona todo o esquema gerado a partir das classes informadas
+     * @param string[] $classes FQN das classes
+     */
+    public function dropEsquema($classes) {
+        $st = $this->getSchemaTool();
+        $metas = $this->montarMetadatas($classes);
+        $st->dropSchema($metas);
+    }
+    
+    /**
+     * Método interno usado pelo gerarEsquema() e dropEsquema()
+     * @param string[] $classes
+     * @return \Doctrine\ORM\Mapping\ClassMetadata[]
+     */
+    private function montarMetadatas($classes) {
+        $metas = array();
+        foreach ($classes as $c) {
+            $metas[] = $this->em->getClassMetadata($c);
+        }
+        return $metas;
+    }
+    
+    public function getSchemaTool() {
+        return new SchemaTool($this->em);
     }
     
     /**

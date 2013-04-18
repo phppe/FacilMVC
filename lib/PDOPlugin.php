@@ -48,24 +48,36 @@ class PDOPlugin implements IPlugin {
         // Se houver uma posição absoluta chamada banco no 
         // arquivo de configuração, só vamos conectar uma vez
         if (isset($dados['banco'])) {
-            $this->pdo = new \PDO(sprintf('%s:host=%s;dbname=%s;port=%04d;charset=%s',
-                                $dados['banco']['sgbd'],
-                                $dados['banco']['host'],
-                                $dados['banco']['database'],
-                                $dados['banco']['porta'],
-                                $dados['l10n']['charset']),
-                                $dados['banco']['usuario'], $dados['banco']['senha']);
+            if (!empty($dados['banco']['dsn'])) {
+                $this->pdo = new \PDO($dados['banco']['dsn'],
+                                      $dados['banco']['usuario'], 
+                                      $dados['banco']['senha']);
+            } else {
+                $this->pdo = new \PDO(sprintf('%s:host=%s;dbname=%s;port=%04d;charset=%s',
+                                    $dados['banco']['sgbd'],
+                                    $dados['banco']['host'],
+                                    $dados['banco']['database'],
+                                    $dados['banco']['porta'],
+                                    $dados['l10n']['charset']),
+                                    $dados['banco']['usuario'], $dados['banco']['senha']);
+            }
             $this->configurarObj($this->pdo);
         } else {
             $this->pdo = array();
             for ($x = 0; isset($dados['banco_' . $x]); $x++) {
-                $this->pdo[$x] = new \PDO(sprintf('%s:host=%s;dbname=%s;port=%04d;charset=%s',
-                                        $dados["banco_$x"]['sgbd'],
-                                        $dados["banco_$x"]['host'],
-                                        $dados["banco_$x"]['database'],
-                                        $dados["banco_$x"]['porta'],
-                                        $dados['l10n']['charset']),
-                                        $dados["banco_$x"]['usuario'], $dados["banco_$x"]['senha']);
+                if (!empty($dados['banco']['dsn'])) {
+                    $this->pdo[$x] = new \PDO($dados["banco_$x"]['dsn'],
+                                              $dados["banco_$x"]['usuario'], 
+                                              $dados["banco_$x"]['senha']);
+                } else {
+                    $this->pdo[$x] = new \PDO(sprintf('%s:host=%s;dbname=%s;port=%04d;charset=%s',
+                                            $dados["banco_$x"]['sgbd'],
+                                            $dados["banco_$x"]['host'],
+                                            $dados["banco_$x"]['database'],
+                                            $dados["banco_$x"]['porta'],
+                                            $dados['l10n']['charset']),
+                                            $dados["banco_$x"]['usuario'], $dados["banco_$x"]['senha']);
+                }
                 $this->configurarObj($this->pdo[$x]);
             }
         }
@@ -89,6 +101,8 @@ class PDOPlugin implements IPlugin {
             $obj->setAttribute(\PDO::ATTR_EMULATE_PREPARES, $dados['ATTR_EMULATE_PREPARES']);
         if (!empty($dados['MYSQL_ATTR_USE_BUFFERED_QUERY'])) 
             $obj->setAttribute(\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $dados['MYSQL_ATTR_USE_BUFFERED_QUERY']);
+        if (!empty($dados['MYSQL_ATTR_INIT_COMMAND'])) 
+            $obj->setAttribute(\PDO::MYSQL_ATTR_INIT_COMMAND, $dados['MYSQL_ATTR_INIT_COMMAND']);
     }
     
     /**
@@ -100,6 +114,7 @@ class PDOPlugin implements IPlugin {
         // arquivo de configuração, só vamos conectar uma vez
         if (isset($dados['banco'])) {
             $this->pdo = new PDOPreConfig(
+                            $dados['banco']['dsn'],
                             $dados['banco']['sgbd'],
                             $dados['banco']['host'],
                             $dados['banco']['database'],
@@ -111,6 +126,7 @@ class PDOPlugin implements IPlugin {
             $this->pdo = array();
             for ($x = 0; isset($dados['banco_' . $x]); $x++) {
                 $this->pdo[$x] = new PDOPreConfig(
+                                        $dados["banco_$x"]['dsn'],
                                         $dados["banco_$x"]['sgbd'],
                                         $dados["banco_$x"]['host'],
                                         $dados["banco_$x"]['database'],
@@ -151,12 +167,18 @@ class PDOPlugin implements IPlugin {
         // significa que o modo é Lazy e só há uma conexão
         // Devemos então conectar e retornar o objeto PDO
         if ($this->pdo instanceof PDOPreConfig) {
-            $this->pdo = new \PDO(sprintf('%s:host=%s;dbname=%s;port=%04d',
-                            $this->pdo->sgbd,
-                            $this->pdo->host,
-                            $this->pdo->database,
-                            $this->pdo->porta),
-                            $this->pdo->usuario, $this->pdo->senha);
+            if (!empty($this->pdo->dsn)) {
+                $this->pdo = new \PDO($this->pdo->dsn,
+                                      $this->pdo->usuario,
+                                      $this->pdo->senha);
+            } else {
+                $this->pdo = new \PDO(sprintf('%s:host=%s;dbname=%s;port=%04d',
+                                $this->pdo->sgbd,
+                                $this->pdo->host,
+                                $this->pdo->database,
+                                $this->pdo->porta),
+                                $this->pdo->usuario, $this->pdo->senha);
+            }
             return $this->pdo;
         
         } 
@@ -172,12 +194,18 @@ class PDOPlugin implements IPlugin {
         // Se a posição corrente do array for PDOPreConfig
         // significa que devemos conectar a partir dela
         if (is_array($this->pdo) && $this->pdo[$indice] instanceof PDOPreConfig) {
-            $this->pdo[$indice] = new \PDO(sprintf('%s:host=%s;dbname=%s;port=%04d',
-                                    $this->pdo[$indice]->sgbd,
-                                    $this->pdo[$indice]->host,
-                                    $this->pdo[$indice]->database,
-                                    $this->pdo[$indice]->porta),
-                                    $this->pdo[$indice]->usuario, $this->pdo[$indice]->senha);
+            if (!empty($this->pdo[$indice])) {
+                $this->pdo[$indice] = new \PDO($this->pdo[$indice]->dsn,
+                                      $this->pdo[$indice]->usuario,
+                                      $this->pdo[$indice]->senha);
+            } else {
+                $this->pdo[$indice] = new \PDO(sprintf('%s:host=%s;dbname=%s;port=%04d',
+                                        $this->pdo[$indice]->sgbd,
+                                        $this->pdo[$indice]->host,
+                                        $this->pdo[$indice]->database,
+                                        $this->pdo[$indice]->porta),
+                                        $this->pdo[$indice]->usuario, $this->pdo[$indice]->senha);
+            }
             return $this->pdo[$indice];
         }
         
@@ -192,6 +220,7 @@ class PDOPlugin implements IPlugin {
  * Classe de uso interno pelo plugin
  */
 class PDOPreConfig {
+    public $dsn;
     public $sgbd;
     public $host;
     public $database;
@@ -199,7 +228,8 @@ class PDOPreConfig {
     public $usuario;
     public $senha;
     
-    public function __construct($sgbd, $host, $database, $porta, $usuario, $senha) {
+    public function __construct($dsn, $sgbd, $host, $database, $porta, $usuario, $senha) {
+        $this->dsn      = $dsn;
         $this->sgbd     = $sgbd;
         $this->host     = $host;
         $this->database = $database;

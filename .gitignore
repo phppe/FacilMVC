@@ -1,2 +1,6 @@
 /nbproject/private/
 /export.patch
+*~
+*.lock
+*.DS_Store
+nbproject/
